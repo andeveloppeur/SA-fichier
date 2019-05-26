@@ -16,6 +16,12 @@ echo '<nav class="navbar navbar-expand-lg navbar-light row fixed-top" style="bac
       <li class="nav-item ';if ($_SESSION["actif"] == "ModifierPromo") {echo 'active';}echo '">
         <a class="nav-link" href="ModifierPromo.php">Gestion des promos</a>
       </li>
+      <li class="nav-item ';if ($_SESSION["actif"] == "ListerEtudiant") {echo 'active';}echo '">
+        <a class="nav-link" href="ListerEtudiant.php">Lister apprenants</a>
+      </li>
+      <li class="nav-item ';if ($_SESSION["actif"] == "emargement") {echo 'active';}echo '">
+        <a class="nav-link" href="emargement.php">Emargement</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="deconnexion.php">Déconnexion</a>
       </li>

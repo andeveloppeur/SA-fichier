@@ -22,7 +22,7 @@ elseif (isset($_POST["promo"])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/MonStyle.css">
-    <title>>Liste des étudiants</title>
+    <title>Liste des étudiants</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@ elseif (isset($_POST["promo"])) {
     include("nav.php");
     ?>
     <header></header>
-    <section class="container-fluid  cAuth">
+    <section class="container-fluid pageLister">
         <form method="POST" action="ListerEtudiant.php" class="MonForm row insc">
             <div class="col-md-3"></div>
             <div class="col-md-6 bor">
@@ -66,46 +66,15 @@ elseif (isset($_POST["promo"])) {
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
-                    <td class="col-md-1 text-center gras">Code</td>
-                    <td class="col-md-2 text-center gras">Promo</td>
+                    <td class="col-md-2 text-center gras">N° CI</td>
+                    <td class="col-md-1 text-center gras">Promo</td>
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date de naissance</td>
                     <td class="col-md-2 text-center gras">Téléphone</td>
                     <td class="col-md-2 text-center gras">Email</td>
-                    <td class="col-md-1 text-center gras">Statut</td>
+                    <td class="col-md-1 text-center gras">Emarger</td>
                 </tr>
             </thead>';
-            ///////////////////////////////////------Debut Bloquer-----////////////////////////////
-            $nouv = "";
-            $monfichier = fopen('etudiants.txt', 'r');
-            if (isset($_GET["code"])) {
-                $aChanger = $_GET["code"];
-                while (!feof($monfichier)) {
-                    $ligne = fgets($monfichier);
-                    $element = explode('|', $ligne);
-                    if ($element[0] == $aChanger) {
-                        if ($element[6] == "Accepter") { //si son statut est Accepter on le bloque
-                            $nouv = $nouv . $element[0] . "|" . $element[1] . "|" . $element[2] . "|" . $element[3] . "|" . $element[4] . "|" . $element[5] . "|Expulser|";
-                        } 
-                        elseif ($element[6] == "Expulser") { //inversement
-                            $nouv = $nouv . $element[0] . "|" . $element[1] . "|" . $element[2] . "|" . $element[3] . "|" . $element[4] . "|" . $element[5] . "|Accepter|";
-                        }
-                        $nouv = $nouv . "\n"; //pour gerer le retour à la ligne qui n est pas gerer par les 2 cas d en haut mais les autre de la variable $ligne le gere
-                    } 
-                    else {
-                        $nouv = $nouv . $ligne; //on ne change pas la ligne si le login ne correspond pas à celui de la ligne
-                    }
-                }
-                fclose($monfichier);
-                if ($nouv != "") {
-                    $monfichier = fopen('etudiants.txt', 'w+');
-                    fwrite($monfichier, trim($nouv)); //on ecrit le fichier pour enregister la modification du statut de l utilisateur le trim est utiliser pour suprimer un eventuel retour à la ligne 
-                    fclose($monfichier);
-                    //header('Location: ListerEtudiant.php#' . $aChanger); ne pas mettre à cause de toutes les informations qui passent par l'url
-                }
-            }
-            ####################################------Fin Bloquer-----##############################
-
 
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
             $monfichier = fopen('etudiants.txt', 'r');
@@ -115,17 +84,13 @@ elseif (isset($_POST["promo"])) {
                 if ($etudiant[1] == $Promo && !isset($_POST["recherche"]) || isset($_POST["recherche"])  && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) && !empty($_POST["aRechercher"]) || $etudiant[1] == $Promo && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
                     echo
                         '<tr class="row">
-                            <td class="col-md-1 text-center">' . $etudiant[0] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[1] . '</td>
+                            <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
+                            <td class="col-md-1 text-center">' . $etudiant[1] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[2] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[4] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[5] . '</td>
-                            <td class="col-md-1 text-center"><a href="ListerEtudiant.php?code=' . $etudiant[0] . '&promo=' . $Promo .  '"   id="' . $etudiant[0] . '" ><button class="form-control';
-                    if ($etudiant[6] == "Expulser") {
-                        echo " bg-danger";
-                    }
-                    echo  '" >' . $etudiant[6] . '</button></a></td>
+                            <td class="col-md-1 text-center"><a href="emargement.php?code=' . $etudiant[0] . '&promo=' . $Promo .  '"   id="' . $etudiant[0] . '" ><button class="form-control" >Emarger</button></a></td>
                         </tr>';
                 }
             }

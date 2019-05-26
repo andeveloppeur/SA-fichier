@@ -32,12 +32,24 @@ $_SESSION["actif"] = "ModifierPromo";
                 $existeDeja = false;
                 $promoDejaAjouter = false;
                 $nepasModif = false;
+                $FichierVide=true;
+                /////////////////--Debut contenu fichier--//////////
+                $monfichier = fopen('promos.txt', 'r');
+                while (!feof($monfichier)) {
+                    $ligne = fgets($monfichier);
+                    $tab = explode("|", $ligne);
+                    if(isset($tab[1])){
+                        $FichierVide=false;
+                    }
+                }
+                fclose($monfichier);
+                /////////////////--Fin contenu fichier--//////////
                 if (isset($_POST["premierValidation"]) || isset($_POST["AjouterFin"]) || isset($_POST["valider"])) {
                     $monfichier = fopen('promos.txt', 'r');
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if (strtolower($tab[1]) == strtolower($_POST["nom"])) {
+                        if ($FichierVide==false && strtolower($tab[1]) == strtolower($_POST["nom"])) {
                             $_POST["nom"] = $tab[1]; //pouvoir utiliser le bon nom
                             $ancMois = $tab[2];
                             $ancAnnee = $tab[3];
@@ -194,7 +206,14 @@ $_SESSION["actif"] = "ModifierPromo";
                 $annee = $_POST["annee"];
 
                 $monfichier = fopen('promos.txt', 'a+');
-                $nouvU = "\n" . $code . "|" .  $nom . "|" . $mois . "|" . $annee . "|"; //ajout d un nouvel utilisateur
+                if($FichierVide==false){
+                    $nouvU = "\n" . $code . "|" .  $nom . "|" . $mois . "|" . $annee . "|"; //ajout d un nouvel utilisateur
+                }
+                else{
+                    $nouvU = $code . "|" .  $nom . "|" . $mois . "|" . $annee . "|"; //ajout d un nouvel utilisateur
+                }
+                
+                
                 fwrite($monfichier, $nouvU); //ajout 
                 fclose($monfichier);
             }
@@ -249,7 +268,7 @@ $_SESSION["actif"] = "ModifierPromo";
                 while (!feof($fichier)) {
                     $line = fgets($fichier);
                     $etudiant = explode('|', $line);
-                    if ($promo[1] == $etudiant[1] && $etudiant[6] != "Expulser") {
+                    if ($FichierVide==false && $promo[1] == $etudiant[1]) {
                         $effectif++;
                     }
                 }

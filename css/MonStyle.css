@@ -1,28 +1,38 @@
-body{
+body {
     margin: 0px;
     background-image: url("../img/u.jpeg");
     background-attachment: fixed;
 }
-.piedPage{
+
+.piedPage {
     text-align: center;
-    background-color:#007bffb9;
+    background-color: #007bffb9;
     font-size: 20px;
     margin-top: 2%;
     margin-bottom: 0px;
 }
-.cpr{
+
+.cpr {
     margin: 0px;
 }
-.corps{
-    min-height: 81vh; 
+
+.corps {
+    min-height: 81vh;
 }
-.cAuth{
-    min-height: 62.2vh; 
+
+.pageLister {
+    min-height: 75vh;
 }
-.cListe{
-    min-height: 72.2vh; 
+
+.cAuth {
+    min-height: 62.2vh;
 }
-.bienv{
+
+.cListe {
+    min-height: 72.2vh;
+}
+
+.bienv {
     min-height: 58.2vh;
     font-style: italic;
     margin-top: 20%;
@@ -30,82 +40,101 @@ body{
     color: rgb(39, 37, 37);
     font-size: 20%;
 }
-.espace{
+
+.espace {
     margin-top: 2%;
 }
-.MonForm{
+
+.MonForm {
     margin-top: 14%;
 }
-.bor{
+
+.bor {
     border: 2px solid #007bffb9;
     padding-bottom: 2%;
     padding-top: 1%;
     background-color: #d0c9d6;
 }
 
-
-tr{
+tr {
     background-color: #d0c9d6;
 }
-.tab{
+
+.tab {
     margin-top: 2.5%;
     margin-bottom: 2.5%;
 }
-.Montab{
+
+.Montab {
     margin-bottom: 1%;
 }
-.blocAcc{
+
+.blocAcc {
     color: red;
 }
-.liste{
+
+.liste {
     margin-top: 2.5%;
 }
-.tabliste{
+
+.tabliste {
     margin-top: 8%;
 }
-.mb5{
+
+.mb5 {
     margin-bottom: 2.65%;
 }
-.rouge{
+
+.rouge {
     background-color: red !important;
 }
-.rougMoins{
+
+.rougMoins {
     background-color: rgba(255, 0, 0, 0.5) !important;
 }
-.gras{
+
+.gras {
     font-weight: bolder;
     background-color: #007bffb9;
 }
-.ecriBlanc{
+
+.ecriBlanc {
     color: white !important;
 }
-tr:hover{
+
+tr:hover {
     background-color: #b6a2c9c9 !important;
 }
-.mesBout{
-     width: 100%;
+
+.mesBout {
+    width: 100%;
 }
-.textlab{
+
+.textlab {
     font-size: 50px;
 }
-.table{
+
+.table {
     margin-bottom: 9em;
 }
 
-.piedPageaccueil{
+.piedPageaccueil {
     text-align: center;
-    background-color:#007bffb9;
+    background-color: #007bffb9;
     font-size: 20px;
     margin-bottom: 0px;
 }
-.margTopAcc80{
+
+.margTopAcc80 {
     margin-top: 80vh;
 }
-.c100 > span {
-font-style: italic;
-font-family: 'Courier New', Courier, monospace;
+
+.c100>span {
+    font-style: italic;
+    font-family: 'Courier New', Courier, monospace;
 }
-.textAccueil{
+
+.textAccueil {
     margin-top: 10%;
     margin-bottom: 8%;
     font-style: italic;

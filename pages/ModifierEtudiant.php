@@ -29,10 +29,24 @@ $_SESSION["actif"] = "ModifierEtudiant";
             <div class="col-md-3"></div>
             <div class="col-md-6 bor">
                 <?php
+                $FichierVide=true;
                 $existeDeja = false;
                 $confirmer = false;
                 $nombre = 0;
                 $valAjout = false;
+                /////////////////--Debut contenu fichier--//////////
+                $monfichier = fopen('etudiants.txt', 'r');
+                while (!feof($monfichier)) {
+                    $ligne = fgets($monfichier);
+                    $tab = explode("|", $ligne);
+                    if(isset($tab[1])){
+                        $FichierVide=false;
+                    }
+                }
+                fclose($monfichier);
+                /////////////////--Fin contenu fichier--//////////
+
+
                 ///////////////////////////////----Validation des élements avant ajout definitif------/////////////////
                 if (isset($_POST["AjouterFin"]) || isset($_POST["valider"]) && isset($_POST["promo"])) {
                     if (!empty($_POST["nom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["tel"]) && !empty($_POST["email"]) && !empty($_POST["promo"])) {
@@ -259,35 +273,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
             }
             $existeDeja = 0;
             $nouv = "";
-            ///////////////////////////////////------Debut Bloquer-----////////////////////////////
-            $monfichier = fopen('etudiants.txt', 'r');
-            if (isset($_GET["code"])) {
-                $aChanger = $_GET["code"];
-                while (!feof($monfichier)) {
-                    $ligne = fgets($monfichier);
-                    $element = explode('|', $ligne);
-                    if ($element[0] == $aChanger) {
-                        if ($element[6] == "Accepter") { //si son statut est Accepter on le bloque
-                            $nouv = $nouv . $element[0] . "|" . $element[1] . "|" . $element[2] . "|" . $element[3] . "|" . $element[4] . "|" . $element[5] . "|Expulser|";
-                        } 
-                        elseif ($element[6] == "Expulser") { //inversement
-                            $nouv = $nouv . $element[0] . "|" . $element[1] . "|" . $element[2] . "|" . $element[3] . "|" . $element[4] . "|" . $element[5] . "|Accepter|";
-                        }
-                        $nouv = $nouv . "\n"; //pour gerer le retour à la ligne qui n est pas gerer par les 2 cas d en haut mais les autre de la variable $ligne le gere
-                    } 
-                    else {
-                        $nouv = $nouv . $ligne; //on ne change pas la ligne si le login ne correspond pas à celui de la ligne
-                    }
-                }
-                fclose($monfichier);
-                if ($nouv != "") {
-                    $monfichier = fopen('etudiants.txt', 'w+');
-                    fwrite($monfichier, trim($nouv)); //on ecrit le fichier pour enregister la modification du statut de l utilisateur le trim est utiliser pour suprimer un eventuel retour à la ligne 
-                    fclose($monfichier);
-                    header('Location: ModifierEtudiant.php#' . $aChanger);
-                }
-            }
-            ####################################------Fin Bloquer-----##############################
+
 
             ///////////////////////////////////------Debut Ajouter-----////////////////////////////////
             if (isset($_POST["AjouterFin"]) && $valAjout == true) {
@@ -311,7 +297,12 @@ $_SESSION["actif"] = "ModifierEtudiant";
                 $statut = "Accepter";
 
                 $monfichier = fopen('etudiants.txt', 'a+');
-                $nouvU = "\n" . $code . "|" . $promo . "|" . $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" . $statut . "|"; //ajout d un nouvel utilisateur
+                if( $FichierVide==false){
+                    $nouvU = "\n" . $code . "|" . $promo . "|" . $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" . $statut . "|"; //ajout d un nouvel utilisateur
+                }
+                else{
+                    $nouvU = $code . "|" . $promo . "|" . $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" . $statut . "|"; //ajout d un nouvel utilisateur
+                }
                 fwrite($monfichier, $nouvU); //ajout 
                 fclose($monfichier);
             }
@@ -351,13 +342,12 @@ $_SESSION["actif"] = "ModifierEtudiant";
         <table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
-                    <td class="col-md-1 text-center gras">Code</td>
+                    <td class="col-md-2 text-center gras">N° CI</td>
                     <td class="col-md-2 text-center gras">Promo</td>
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date de naissance</td>
                     <td class="col-md-2 text-center gras">Téléphone</td>
                     <td class="col-md-2 text-center gras">Email</td>
-                    <td class="col-md-1 text-center gras">Statut</td>
                 </tr>
             </thead>
             <?php
@@ -369,18 +359,13 @@ $_SESSION["actif"] = "ModifierEtudiant";
                 //si le code n'est pas vide et que on ne recherche rien                          //si on recherche une chose non vide et que cela face partie de la ligne                                 //si on appuis sur le bouton rechercher alors qu'on n'a rien ecrit afficher tous les éléments                                      
                     echo
                         '<tr class="row">
-                            <td class="col-md-1 text-center">' . $etudiant[0] . '</td>
+                            <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[1] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[2] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[4] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[5] . '</td>
-                            <td class="col-md-1 text-center"><a href="ModifierEtudiant.php?code=' . $etudiant[0] .  '"   id="' . $etudiant[0] . '" ><button class="form-control ';
-                    if ($etudiant[6] == "Expulser") {
-                        echo " bg-danger ";
-                    }
-                    
-                    echo  '" >' . $etudiant[6] . '</button></a></td>
+                            
                         </tr>';
                 }
             }
