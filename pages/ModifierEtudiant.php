@@ -49,7 +49,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
 
                 ///////////////////////////////----Validation des élements avant ajout definitif------/////////////////
                 if (isset($_POST["AjouterFin"]) || isset($_POST["valider"]) && isset($_POST["promo"])) {
-                    if (!empty($_POST["nom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["tel"]) && !empty($_POST["email"]) && !empty($_POST["promo"])) {
+                    if (!empty($_POST["code"]) && !empty($_POST["nom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["tel"]) && !empty($_POST["email"]) && !empty($_POST["promo"])) {
                         $valAjout = true;
                     }
                 }
@@ -91,7 +91,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     ////////////----Fin Recupération anciennes données---//////////////
                 }
 
-                //////////////////////////-------Code enregistrer----------------------//////////////////////
+                //////////////////////////-------Code----------------------//////////////////////
                 if (isset($_POST["premierValidation"]) && $existeDeja == true || isset($_POST["valider"]) && $valAjout == false) {
                     echo '<div class="row">
                         <div class="col-md-2"></div>
@@ -111,7 +111,26 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     echo '</select>
                     </div>';
                 }
-                //////////////////////////-------Fin Code enregister----------------------//////////////////////
+                if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre == 1 || isset($_POST["premierValidation"]) && $existeDeja == true && $nombre > 1 && $confirmer == true || isset($_POST["Ajouter"]) || isset($_POST["AjouterFin"]) && $valAjout == false || isset($_POST["valider"]) && $valAjout == false) {
+                        echo '<div class="row">
+                        <div class="col-md-2"></div>';
+                    if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre == 1 || isset($_POST["premierValidation"]) && $existeDeja == true && $nombre > 1 && $confirmer == true || isset($_POST["Ajouter"])) {
+                        echo '<input class="form-control col-md-8 espace" id="tel" name="code" placeholder="Numéro carte d\'identité" ';
+                        if ($existeDeja == true) {
+                            echo 'value="' . $ancTel . '" ';
+                        }
+                    } 
+                    elseif (isset($_POST["AjouterFin"]) && empty($_POST["code"]) || isset($_POST["valider"]) && empty($_POST["code"])) { //si le téléphone vide lors de l'ajout
+                        echo '<input class="form-control col-md-8 espace rougMoins" type="text" name="code" placeholder="Remplir le numéro de le carte d\'identité" ';
+                    } 
+                    elseif (isset($_POST["AjouterFin"]) && $valAjout == false || isset($_POST["valider"]) && $valAjout == false) { //si il manque des informations avant l'ajout remettre le téléphone
+                        echo '<input class="form-control col-md-8 espace" type="text"  name="code" placeholder="Numéro carte d\'identité" value ="' . $_POST["code"] . '" ';
+                    }
+
+                    echo '">
+                    </div>';
+                }
+                //////////////////////////-------Fin Code----------------------//////////////////////
 
                 //////////////////////////-------Nom----------------------/////////////////////////
                 echo '<div class="row">
@@ -283,9 +302,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     $tab = explode("|", $ligne);
                 }
                 fclose($monfichier);
-                $code = str_replace("AP-", "", $tab[0]);
-                $code = intval($code) + 1;
-                $code = "AP-" . $code;
+                $code = $_POST["code"];
 
                 $promo = $_POST["promo"];
                 $nom = $_POST["nom"];

@@ -26,60 +26,78 @@ $_SESSION["actif"] = "accueil";
     ?>
     <header></header>
     <section class="container-fluid">
-        <h1 class="textAccueil">Répartition de l'effectif par promo</h1>
-        <?php
-        $total=0;
-        $n=0;
-         $fichier = fopen('etudiants.txt', 'r');
-        while (!feof($fichier)) {
-            $line = fgets($fichier);
-            $etudiant = explode('|', $line);
-            if ($etudiant[6] != "Expulser") {
-                $total++;
-            }
-        }
-        fclose($fichier);
-
-        $monfichier = fopen('promos.txt', 'r');
-            while (!feof($monfichier)) {
-                $ligne = fgets($monfichier);
-                $promo = explode('|', $ligne);
-                //////------compter effectif---//////
-                $effectif = 0;
-                $fichier = fopen('etudiants.txt', 'r');
-                while (!feof($fichier)) {
-                    $line = fgets($fichier);
-                    $etudiant = explode('|', $line);
-                    if ($promo[1] == $etudiant[1] && $etudiant[6] != "Expulser") {
-                        $effectif++;
-                    }
-                }
-                fclose($fichier);
-                ######-------fin compter effectif####
-                $p=intval(($effectif/$total)*100);
-                if (!isset($_POST["recherche"]) || isset($_POST["recherche"]) && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) || isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
-                echo'  
-                   <a href="ListerEtudiant.php?promo=' . $promo[1]  . ' ">
-                        <div class="c100 p'.$p.' big">
-                            <span>'.$p.'% <br>'.$promo[1].'</span>
-                            <div class="slice">
-                                <div class="bar"></div>
-                                <div class="fill"></div>
-                            </div>
-                        </div>  
-                    </a>';
-                    $n++;
-                }
-            }
-            fclose($monfichier); 
+        <h1 class="textAccueil">Pourcentage d'étudiants présents/absents</h1>
         
+        <?php
+        ///////////////////////////-------rechercher par jour---------------------//////////////////////
+        echo'<form method="POST" action="" class="monformAcc row insc">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 bor">';
+                echo '<div class="row">
+                    <div class="col-md-2"></div>
+                    <input type="date" class="form-control col-md-8 espace" name="jourRech" value="'.date('Y-m-d').'">
+                </div>';
+                echo '<div class="row">
+                    <div class="col-md-3"></div>
+                    <input type="submit" class="form-control col-md-6 espace" value="Lister" name="valider">
+                </div>
+                </div>
+            </form>';
+        ///////////////////////////-------rechercher par jour---------------------//////////////////////
+        ?>
+        <a href="presence.php"><div id="chartdiv"></div></a>
+        <?php
+        $i=0;
+        if(isset($_POST["valider"])){
+            $datN = new DateTime($_POST["jourRech"]);
+            $date = $datN->format('d-m-Y');
+        }
+        $monfichier = fopen('promos.txt', 'r');
+        while (!feof($monfichier)) {
+            $ligne = fgets($monfichier);
+            $promo = explode('|', $ligne);
+            //////------compter effectif---//////
+            $effectif = 0;
+            $fichier = fopen('etudiants.txt', 'r');
+            while (!feof($fichier)) {
+                $line = fgets($fichier);
+                $etudiant = explode('|', $line);
+                if ($promo[1] == $etudiant[1]) {
+                    $effectif++;
+                }
+            }
+            fclose($fichier);
+            //////------Fin compter effectif---//////
+
+            ////////------compter emarger---///////
+            $emarger=0;
+            $fichier = fopen('emargement.txt', 'r');
+            while (!feof($fichier)) {
+                $line = fgets($fichier);
+                $etudiant = explode('|', $line);
+                if ($promo[1] == $etudiant[1] && $etudiant[3]==date('d-m-Y') && !isset($_POST["valider"]) || isset($_POST["valider"]) && $promo[1] == $etudiant[1] && $etudiant[3]==$date) {
+                    $emarger++;
+                }
+            }
+            fclose($fichier);
+            //////------Fin compter emarger---//////
+            $absent=$effectif-$emarger;
+            $i++;
+            echo'<div id="present'.$i.'" class="'.$emarger.'"></div>
+                 <div id="absent'.$i.'" class="'.$absent.'"></div>';
+        }
+        fclose($monfichier);
+     
         echo "<h2 class='bienv'></h2>
         </section>
-            <footer class='piedPageaccueil"; if($n>5){echo" margTopAcc80 ";}else{echo" margTopAcc20 ";} echo"'>
+            <footer class='piedPageaccueil'>
                 <p class='cpr'>Copyright 2019 Sonatel Academy</p>
             </footer>";
         ?>
-    
+    <script src="../js/core.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/animated.js"></script>
+    <script src="../js/index.js"></script>
 </body>
 
 </html>

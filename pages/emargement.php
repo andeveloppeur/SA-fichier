@@ -51,7 +51,6 @@ elseif (isset($_POST["promo"])) {
         fclose($monfichier);
         if(isset($_GET["code"]) || isset($_GET["aModifier"])){
             
-
             echo'<form method="POST" action="emargement.php" class="MonForm row insc">
                     <div class="col-md-3"></div>
                     <div class="col-md-6 bor">';
@@ -130,7 +129,7 @@ elseif (isset($_POST["promo"])) {
                     ///////////////////////////-------Date---------------------//////////////////////
                     echo'<div class="row">
                             <div class="col-md-2"></div>
-                            <input type="date" class="form-control col-md-8 espace" name="auj" value="'.$dateNow.'"'; if(!isset($_GET["aModifier"])){echo'readonly="readonly"';} echo'>
+                            <input type="date" class="form-control col-md-8 espace" name="auj" value="'.$dateNow.'" readonly="readonly">
                         </div>';
                     ///////////////////////////-------Date---------------------//////////////////////
 
@@ -158,6 +157,24 @@ elseif (isset($_POST["promo"])) {
                     echo'</div>
                 </form>';
             }
+            ///////////////////////////-------rechercher par jour---------------------//////////////////////
+            else{
+            echo'<form method="POST" action="emargement.php" class="MonForm row insc">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 bor">';
+                    echo '<div class="row">
+                        <div class="col-md-2"></div>
+                        <input type="date" class="form-control col-md-8 espace" name="jourRech"'; if(!isset($_POST["jourRech"])){echo' value="'.date('Y-m-d').'" ';}else{echo' value="'.$_POST["jourRech"].'" ';} echo'>
+                    </div>';
+                    echo '<div class="row">
+                        <div class="col-md-3"></div>
+                        <input type="submit" class="form-control col-md-6 espace" value="Lister" name="validerRechJour">
+                    </div>
+                    </div>
+                </form>';
+            }
+            ///////////////////////////-------rechercher par jour---------------------//////////////////////
+
         ?>
         <?php
         if (isset($_POST["promo"]) || isset($_GET["promo"])) {
@@ -212,7 +229,7 @@ elseif (isset($_POST["promo"])) {
             }
             ####################################------Sortie----#############################
         }
-
+            
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
@@ -228,10 +245,15 @@ elseif (isset($_POST["promo"])) {
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
             if(!isset($_POST["valider"])){
                 $monfichier = fopen('emargement.txt', 'r');
+                if(isset($_POST["jourRech"])){
+                    $datN = new DateTime($_POST["jourRech"]);
+                    $date = $datN->format('d-m-Y');
+                }
+                
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
                     $etudiant = explode('|', $ligne);
-                    if ($FichierVide==false && !isset($_POST["recherche"]) || $FichierVide==false && isset($_POST["recherche"])  && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) && !empty($_POST["aRechercher"]) || $FichierVide==false && $etudiant[1] == $Promo && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
+                    if (isset($_POST["validerRechJour"]) && $etudiant[3]==$date||!isset($_POST["validerRechJour"]) && $FichierVide==false && !isset($_POST["recherche"]) && $etudiant[3]==date('d-m-Y')||!isset($_POST["validerRechJour"]) &&  $FichierVide==false && isset($_POST["recherche"])  && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) && !empty($_POST["aRechercher"]) ||!isset($_POST["validerRechJour"]) &&  $FichierVide==false && $etudiant[1] == $Promo && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
                         echo
                             '<tr class="row">
                                 <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
@@ -247,16 +269,18 @@ elseif (isset($_POST["promo"])) {
                 fclose($monfichier);
             }
             else{
+                $datN = new DateTime($_POST["auj"]);
+                $date = $datN->format('d-m-Y');
                 echo
-                            '<tr class="row">
-                                <td class="col-md-2 text-center">' . $_POST["code"] . '</td>
-                                <td class="col-md-2 text-center">' . $_POST["promo"] . '</td>
-                                <td class="col-md-2 text-center">' . $_POST["nom"]  . '</td>
-                                <td class="col-md-2 text-center">' . $_POST["auj"] . '</td>
-                                <td class="col-md-1 text-center">' . $_POST["arrivee"]  . '</td>
-                                <td class="col-md-1 text-center">' . $_POST["depart"]  . '</td>
-                                <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$_POST["code"] .'&promo='.$_POST["promo"].'"><button class="form-control" >Modifier</button></a></td>
-                            </tr>';
+                    '<tr class="row">
+                        <td class="col-md-2 text-center">' . $_POST["code"] . '</td>
+                        <td class="col-md-2 text-center">' . $_POST["promo"] . '</td>
+                        <td class="col-md-2 text-center">' . $_POST["nom"]  . '</td>
+                        <td class="col-md-2 text-center">' . $date . '</td>
+                        <td class="col-md-1 text-center">' . $_POST["arrivee"]  . '</td>
+                        <td class="col-md-1 text-center">' . $_POST["depart"]  . '</td>
+                        <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$_POST["code"] .'&promo='.$_POST["promo"].'"><button class="form-control" >Modifier</button></a></td>
+                    </tr>';
             }
             ####################################------Fin Affichage-----#################################
        

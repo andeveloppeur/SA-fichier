@@ -54,10 +54,18 @@ elseif (isset($_POST["promo"])) {
                 echo '</select>
                     </div>';
                 ///////////////////////////-------Fin Promo---------------------//////////////////////
+
+                ///////////////////////////---------Nom---------------------//////////////////////
+                echo '<div class="row">
+                <div class="col-md-2"></div>
+                <input type="text" class="form-control col-md-8 espace" '; if(isset($_POST["nom"])){echo' value="'.$_POST["nom"].'" ';}  echo' name="nom" placeholder="Nom de l\'apprenant">
+                </div>';
+                ///////////////////////////-------Fin Nom---------------------//////////////////////
+
                 echo '<div class="row">
                 <div class="col-md-3"></div>
                 <input type="submit" class="form-control col-md-6 espace" value="Lister" name="valider">
-            </div>';
+                </div>';
                 ?>
             </div>
         </form>
@@ -81,7 +89,7 @@ elseif (isset($_POST["promo"])) {
             while (!feof($monfichier)) {
                 $ligne = fgets($monfichier);
                 $etudiant = explode('|', $ligne);
-                if ($etudiant[1] == $Promo && !isset($_POST["recherche"]) || isset($_POST["recherche"])  && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) && !empty($_POST["aRechercher"]) || $etudiant[1] == $Promo && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
+                if ( $etudiant[1] == $Promo && empty($_POST["nom"]) || $etudiant[1] == $Promo && !empty($_POST["nom"]) && strstr(strtolower($etudiant[2]),strtolower($_POST["nom"]))) {
                     echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
