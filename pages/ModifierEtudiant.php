@@ -61,7 +61,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if ($FichierVide=false &&strtolower($tab[2]) == strtolower($_POST["nom"])) {
+                        if ($FichierVide==false && strtolower($tab[2]) == strtolower($_POST["nom"])) {
                             $nombre++;
                             $existeDeja = true;
                         }
@@ -75,7 +75,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if ($FichierVide=false && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre == 1 || isset($_POST["ancienCode"]) && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre > 1 && $_POST["ancienCode"] == $tab[0]) {
+                        if ($FichierVide==false && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre == 1 || isset($_POST["ancienCode"]) && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre > 1 && $_POST["ancienCode"] == $tab[0]) {
                             //soit on cherche avec le nom si il y a une seule personne qui porte ce nom soit avec le nom et le code si plusieurs personnes ont ce nom
                             $_POST["nom"] = $tab[2]; //pouvoir utiliser le bon nom
                             $ancDNaiss = $tab[3];
@@ -111,14 +111,14 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     echo '</select>
                     </div>';
                 }
-                if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre == 1 || isset($_POST["premierValidation"]) && $existeDeja == true && $nombre > 1 && $confirmer == true || isset($_POST["Ajouter"]) || isset($_POST["AjouterFin"]) && $valAjout == false || isset($_POST["valider"]) && $valAjout == false) {
+                if (isset($_POST["Ajouter"])) {
                         echo '<div class="row">
                         <div class="col-md-2"></div>';
                     if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre == 1 || isset($_POST["premierValidation"]) && $existeDeja == true && $nombre > 1 && $confirmer == true || isset($_POST["Ajouter"])) {
-                        echo '<input class="form-control col-md-8 espace" id="tel" name="code" placeholder="Numéro carte d\'identité" ';
-                        if ($existeDeja == true) {
-                            echo 'value="' . $ancTel . '" ';
-                        }
+                        echo '<input class="form-control col-md-8 espace" name="code" placeholder="Numéro carte d\'identité" ';
+                        // if ($existeDeja == true) {
+                        //     echo 'value="' . $ancTel . '" ';
+                        // }
                     } 
                     elseif (isset($_POST["AjouterFin"]) && empty($_POST["code"]) || isset($_POST["valider"]) && empty($_POST["code"])) { //si le téléphone vide lors de l'ajout
                         echo '<input class="form-control col-md-8 espace rougMoins" type="text" name="code" placeholder="Remplir le numéro de le carte d\'identité" ';
