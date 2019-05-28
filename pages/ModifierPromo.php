@@ -245,7 +245,19 @@ $_SESSION["actif"] = "ModifierPromo";
             </div>
         </form>
         <!-- ///////////////////////////////////------Debut Affichage-----//////////////////////// -->
-        <table class="col-12 tabliste table">
+        <?php
+        $FichierVide=true;
+        $monfichier = fopen('promos.txt', 'r');
+            while (!feof($monfichier)) {
+                $ligne = fgets($monfichier);
+                $etudiant = explode('|', $ligne);
+                if(isset($etudiant[1])){
+                    $FichierVide=false;
+                }
+            }
+        fclose($monfichier);
+        if($FichierVide==false){
+        echo'<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
                     <td class="col-md-2 text-center gras">Code</td>
@@ -255,8 +267,8 @@ $_SESSION["actif"] = "ModifierPromo";
                     <td class="col-md-2 text-center gras">Effectif</td>
                     <td class="col-md-2 text-center gras">Lister</td>
                 </tr>
-            </thead>
-            <?php
+            </thead>';
+        }
 
             $monfichier = fopen('promos.txt', 'r');
             while (!feof($monfichier)) {
@@ -268,7 +280,7 @@ $_SESSION["actif"] = "ModifierPromo";
                 while (!feof($fichier)) {
                     $line = fgets($fichier);
                     $etudiant = explode('|', $line);
-                    if ($FichierVide==false && $promo[1] == $etudiant[1]) {
+                    if ($FichierVide==false && isset($promo[1]) && isset($etudiant[1])&&$promo[1] == $etudiant[1]) {
                         $effectif++;
                     }
                 }

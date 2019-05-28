@@ -61,7 +61,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if (strtolower($tab[2]) == strtolower($_POST["nom"])) {
+                        if ($FichierVide=false &&strtolower($tab[2]) == strtolower($_POST["nom"])) {
                             $nombre++;
                             $existeDeja = true;
                         }
@@ -75,7 +75,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if (strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre == 1 || isset($_POST["ancienCode"]) && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre > 1 && $_POST["ancienCode"] == $tab[0]) {
+                        if ($FichierVide=false && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre == 1 || isset($_POST["ancienCode"]) && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre > 1 && $_POST["ancienCode"] == $tab[0]) {
                             //soit on cherche avec le nom si il y a une seule personne qui porte ce nom soit avec le nom et le code si plusieurs personnes ont ce nom
                             $_POST["nom"] = $tab[2]; //pouvoir utiliser le bon nom
                             $ancDNaiss = $tab[3];
@@ -356,7 +356,19 @@ $_SESSION["actif"] = "ModifierEtudiant";
             </div>
         </form>
         <!-- ///////////////////////////////////------Debut Affichage-----//////////////////////// -->
-        <table class="col-12 tabliste table">
+        <?php
+        $FichierVide=true;
+        $monfichier = fopen('etudiants.txt', 'r');
+            while (!feof($monfichier)) {
+                $ligne = fgets($monfichier);
+                $etudiant = explode('|', $ligne);
+                if(isset($etudiant[1])){
+                    $FichierVide=false;
+                }
+            }
+        fclose($monfichier);
+        if($FichierVide==false){
+        echo'<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
                     <td class="col-md-2 text-center gras">N° CI</td>
@@ -366,8 +378,8 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     <td class="col-md-2 text-center gras">Téléphone</td>
                     <td class="col-md-2 text-center gras">Email</td>
                 </tr>
-            </thead>
-            <?php
+            </thead>';
+        }    
             $monfichier = fopen('etudiants.txt', 'r');
             while (!feof($monfichier)) {
                 $ligne = fgets($monfichier);

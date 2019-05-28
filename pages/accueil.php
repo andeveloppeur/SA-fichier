@@ -62,7 +62,7 @@ $_SESSION["actif"] = "accueil";
             while (!feof($fichier)) {
                 $line = fgets($fichier);
                 $etudiant = explode('|', $line);
-                if ($promo[1] == $etudiant[1]) {
+                if (isset($etudiant[1]) && isset($promo[1]) && $promo[1] == $etudiant[1]) {
                     $effectif++;
                 }
             }
@@ -75,7 +75,7 @@ $_SESSION["actif"] = "accueil";
             while (!feof($fichier)) {
                 $line = fgets($fichier);
                 $etudiant = explode('|', $line);
-                if ($promo[1] == $etudiant[1] && $etudiant[3]==date('d-m-Y') && !isset($_POST["valider"]) || isset($_POST["valider"]) && $promo[1] == $etudiant[1] && $etudiant[3]==$date) {
+                if (isset($etudiant[1]) && isset($promo[1]) && $promo[1] == $etudiant[1] && $etudiant[3]==date('d-m-Y') && !isset($_POST["valider"]) || isset($_POST["valider"]) && isset($etudiant[1]) && isset($promo[1]) && $promo[1] == $etudiant[1] && $etudiant[3]==$date) {
                     $emarger++;
                 }
             }

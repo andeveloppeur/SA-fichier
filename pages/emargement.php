@@ -229,7 +229,7 @@ elseif (isset($_POST["promo"])) {
             }
             ####################################------Sortie----#############################
         }
-            
+            if($FichierVide==false){
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
@@ -242,6 +242,7 @@ elseif (isset($_POST["promo"])) {
                     <td class="col-md-2 text-center gras">Modification</td>
                 </tr>
             </thead>';
+            }
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
             if(!isset($_POST["valider"])){
                 $monfichier = fopen('emargement.txt', 'r');
@@ -253,7 +254,7 @@ elseif (isset($_POST["promo"])) {
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
                     $etudiant = explode('|', $ligne);
-                    if (isset($_POST["validerRechJour"]) && $etudiant[3]==$date||!isset($_POST["validerRechJour"]) && $FichierVide==false && !isset($_POST["recherche"]) && $etudiant[3]==date('d-m-Y')||!isset($_POST["validerRechJour"]) &&  $FichierVide==false && isset($_POST["recherche"])  && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) && !empty($_POST["aRechercher"]) ||!isset($_POST["validerRechJour"]) &&  $FichierVide==false && $etudiant[1] == $Promo && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
+                    if (isset($_POST["validerRechJour"]) && $FichierVide==false && $etudiant[3]==$date||!isset($_POST["validerRechJour"]) && $FichierVide==false && !isset($_POST["recherche"]) && $etudiant[3]==date('d-m-Y')||!isset($_POST["validerRechJour"]) &&  $FichierVide==false && isset($_POST["recherche"])  && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) && !empty($_POST["aRechercher"]) ||!isset($_POST["validerRechJour"]) &&  $FichierVide==false && $etudiant[1] == $Promo && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
                         echo
                             '<tr class="row">
                                 <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
