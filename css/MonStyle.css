@@ -1,8 +1,10 @@
 body {
     margin: 0px;
-    /* background-image: url("../img/u.jpeg"); */
-    background-color: #d2c5c58a;
+    background-image: url("../img/uu.jpg");
+    /* background-color: #d2c5c58a; */
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 #chartdiv {

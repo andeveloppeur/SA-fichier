@@ -100,7 +100,7 @@ elseif (isset($_POST["promo"])) {
                         while (!feof($monfichier)) {
                             $ligne = fgets($monfichier);
                             $tab = explode("|", $ligne);
-                            if($tab[0]==$_GET["aModifier"]){
+                            if($tab[0]==$_GET["aModifier"] && $tab[3]==$_GET["date"]){
                                 $codeRecup=$tab[0];
                                 $nomRecup=$tab[2];
                                 $datN = new DateTime($tab[3]);
@@ -212,9 +212,10 @@ elseif (isset($_POST["promo"])) {
 
                     $ligne = fgets($monfichier);
                     $tab = explode("|", $ligne);
-                    if ( $tab[0] == $_POST["code"] || isset($_GET["aModifier"]) && $tab[0] == $_GET["aModifier"] ) {//modifier si le code correspond                             
-                        $datN = new DateTime($_POST["auj"]);
-                        $dateaujj = $datN->format('d-m-Y');
+                    $datN = new DateTime($_POST["auj"]);
+                    $dateaujj = $datN->format('d-m-Y');
+                    if ( $tab[0] == $_POST["code"] && $dateaujj==$tab[3] && !isset($_GET["aModifier"])|| isset($_GET["aModifier"]) && $tab[0] == $_GET["aModifier"] && $dateaujj==$tab[3]) {//modifier si le code correspond                             
+                       
                         $modif = $tab[0] . "|" . $_POST["promo"] . "|" . $_POST["nom"] . "|" . $dateaujj . "|" . $_POST["arrivee"] . "|" . $_POST["depart"] . "|\n";
                     } 
                     else {
@@ -229,7 +230,7 @@ elseif (isset($_POST["promo"])) {
             }
             ####################################------Sortie----#############################
         }
-            if($FichierVide==false){
+            if($FichierVide==false && !isset($_GET["aModifier"])){
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
@@ -244,7 +245,7 @@ elseif (isset($_POST["promo"])) {
             </thead>';
             }
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
-            if(!isset($_POST["valider"])){
+            if(!isset($_POST["valider"]) && !isset($_GET["aModifier"])){
                 $monfichier = fopen('emargement.txt', 'r');
                 if(isset($_POST["jourRech"])){
                     $datN = new DateTime($_POST["jourRech"]);
@@ -263,13 +264,13 @@ elseif (isset($_POST["promo"])) {
                                 <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
                                 <td class="col-md-1 text-center">' . $etudiant[4] . '</td>
                                 <td class="col-md-1 text-center">' . $etudiant[5] . '</td>
-                                <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$etudiant[0].'&promo='.$etudiant[1].'"><button class="form-control" >Modifier</button></a></td>
+                                <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$etudiant[0].'&promo='.$etudiant[1].'&&date='.$etudiant[3].'"><button class="form-control" >Modifier</button></a></td>
                             </tr>';
                     }
                 }
                 fclose($monfichier);
             }
-            else{
+            elseif(isset($_POST["valider"])){
                 $datN = new DateTime($_POST["auj"]);
                 $date = $datN->format('d-m-Y');
                 echo

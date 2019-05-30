@@ -1,4 +1,4 @@
-1751 2019 0481|Dev Web|Abdoulaye Ndoye|26-05-2019|16:44||
+1751 2019 0481|Dev Web|Abdoulaye Ndoye|26-05-2019|16:45|01:50|
 1751 2019 0482|Dev Web|Ibou Ndao|26-05-2019|17:59||
 1751 2019 0484|Dev Web|Awa ciss|26-05-2019|17:59||
 1751 2019 04812|Ref Dig|Mor Seck|26-05-2019|21:58||
@@ -17,3 +17,4 @@
 1751 2019 04827|Ref Dig|Abdoulaye Ndoye|27-05-2019|22:27||
 1751 2019 04828|Ref Dig|Amadou Ndoye|27-05-2019|22:28||
 1751 2019 04839|Data Art|Fatou Mbaye|27-05-2019|22:58||
+1751 2019 0481|Dev Web|Abdoulaye Ndoye|30-05-2019|16:22|16:26|
