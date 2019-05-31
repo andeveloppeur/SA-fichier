@@ -5,8 +5,9 @@ if (!isset($_SESSION["nom"])) {
     header('Location: ../index.php');
     exit();
 }
-$_SESSION["actif"] = "ModifierEtudiant";
+$_SESSION["actif"] = "visiteur";
 ?>
+
 <!DOCTYPE html>
 <html lang="FR-fr">
 
@@ -35,7 +36,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                 $nombre = 0;
                 $valAjout = false;
                 /////////////////--Debut contenu fichier--//////////
-                $monfichier = fopen('etudiants.txt', 'r');
+                $monfichier = fopen('visiteur.txt', 'r');
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
                     $tab = explode("|", $ligne);
@@ -48,8 +49,8 @@ $_SESSION["actif"] = "ModifierEtudiant";
 
 
                 ///////////////////////////////----Validation des élements avant ajout definitif------/////////////////
-                if (isset($_POST["AjouterFin"]) || isset($_POST["valider"]) && isset($_POST["promo"])) {
-                    if (!empty($_POST["code"]) && !empty($_POST["nom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["tel"]) && !empty($_POST["email"]) && !empty($_POST["promo"])||!empty($_POST["ancienCode"]) && !empty($_POST["nom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["tel"]) && !empty($_POST["email"]) && !empty($_POST["promo"])) {
+                if (isset($_POST["AjouterFin"]) || isset($_POST["valider"])) {
+                    if (!empty($_POST["nom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["tel"]) && !empty($_POST["email"])) {
                         $valAjout = true;
                     }
                 }
@@ -57,11 +58,11 @@ $_SESSION["actif"] = "ModifierEtudiant";
 
                 if (isset($_POST["premierValidation"])) {
                     ////////////----même nom----//////////////////
-                    $monfichier = fopen('etudiants.txt', 'r');
+                    $monfichier = fopen('visiteur.txt', 'r');
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if ($FichierVide==false && strtolower($tab[2]) == strtolower($_POST["nom"])) {
+                        if ($FichierVide==false && strtolower($tab[1]) == strtolower($_POST["nom"])) {
                             $nombre++;
                             $existeDeja = true;
                         }
@@ -71,17 +72,16 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     ////////////----Fin même nom----//////////////
 
                     ////////////----Recupération anciennes données---//////////////
-                    $monfichier = fopen('etudiants.txt', 'r');
+                    $monfichier = fopen('visiteur.txt', 'r');
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
                         $tab = explode("|", $ligne);
-                        if ($FichierVide==false && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre == 1 || isset($_POST["ancienCode"]) && strtolower($tab[2]) == strtolower($_POST["nom"]) && $nombre > 1 && $_POST["ancienCode"] == $tab[0]) {
+                        if ($FichierVide==false && strtolower($tab[1]) == strtolower($_POST["nom"]) && $nombre == 1 || isset($_POST["ancienCode"]) && strtolower($tab[1]) == strtolower($_POST["nom"]) && $nombre > 1 && $_POST["ancienCode"] == $tab[0]) {
                             //soit on cherche avec le nom si il y a une seule personne qui porte ce nom soit avec le nom et le code si plusieurs personnes ont ce nom
-                            $_POST["nom"] = $tab[2]; //pouvoir utiliser le bon nom
-                            $ancDNaiss = $tab[3];
-                            $ancTel = $tab[4];
-                            $ancEmail = $tab[5];
-                            $anciePromo = $tab[1];
+                            $_POST["nom"] = $tab[1]; //pouvoir utiliser le bon nom
+                            $ancDNaiss = $tab[2];
+                            $ancTel = $tab[3];
+                            $ancEmail = $tab[4];
                             $datN = new DateTime($ancDNaiss);
                             $ancDNaiss = $datN->format('Y-m-d');
                             $confirmer = true;
@@ -90,44 +90,25 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     fclose($monfichier);
                     ////////////----Fin Recupération anciennes données---//////////////
                 }
-
                 //////////////////////////-------Code----------------------//////////////////////
-                if (isset($_POST["premierValidation"]) && $existeDeja == true || isset($_POST["valider"]) && $valAjout == false) {
+                if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre>1 || isset($_POST["valider"]) && $valAjout == false) {
                     echo '<div class="row">
                         <div class="col-md-2"></div>
                         <select class="form-control col-md-8 espace" name="ancienCode" >';
-                    $monfichier = fopen("etudiants.txt", "r");
+                        
+                    $monfichier = fopen("visiteur.txt", "r");
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
-                        $etudiants = explode("|", $ligne);
-                        if ($etudiants[2] == $_POST["nom"] && !isset($_POST["ancienCode"])) {
-                            echo '<option value="' . $etudiants[0] . '" selected>' . $etudiants[0] . '</option>';
+                        $visiteurs = explode("|", $ligne);
+                        if ($visiteurs[1] == $_POST["nom"] && !isset($_POST["ancienCode"])) {
+                            echo '<option value="' . $visiteurs[0] . '" selected>' . $visiteurs[0] . '</option>';
                         } 
-                        elseif (isset($_POST["ancienCode"]) && $etudiants[0] == $_POST["ancienCode"]) { //apres validation du code le selectionné
+                        elseif (isset($_POST["ancienCode"]) && $visiteurs[0] == $_POST["ancienCode"]) { //apres validation du code le selectionné
                             echo '<option value="' . $_POST["ancienCode"] . '" selected>' . $_POST["ancienCode"] . '</option>';
                         }
                     }
                     fclose($monfichier);
                     echo '</select>
-                    </div>';
-                }
-                if (isset($_POST["Ajouter"])) {
-                        echo '<div class="row">
-                        <div class="col-md-2"></div>';
-                    if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre == 1 || isset($_POST["premierValidation"]) && $existeDeja == true && $nombre > 1 && $confirmer == true || isset($_POST["Ajouter"])) {
-                        echo '<input class="form-control col-md-8 espace" name="code" placeholder="Numéro carte d\'identité" ';
-                        // if ($existeDeja == true) {
-                        //     echo 'value="' . $ancTel . '" ';
-                        // }
-                    } 
-                    elseif (isset($_POST["AjouterFin"]) && empty($_POST["code"]) || isset($_POST["valider"]) && empty($_POST["code"])) { //si le téléphone vide lors de l'ajout
-                        echo '<input class="form-control col-md-8 espace rougMoins" type="text" name="code" placeholder="Remplir le numéro de le carte d\'identité" ';
-                    } 
-                    elseif (isset($_POST["AjouterFin"]) && $valAjout == false || isset($_POST["valider"]) && $valAjout == false) { //si il manque des informations avant l'ajout remettre le téléphone
-                        echo '<input class="form-control col-md-8 espace" type="text"  name="code" placeholder="Numéro carte d\'identité" value ="' . $_POST["code"] . '" ';
-                    }
-
-                    echo '">
                     </div>';
                 }
                 //////////////////////////-------Fin Code----------------------//////////////////////
@@ -225,38 +206,6 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     echo '>
                     </div>';
                     //////////////////////////-------Fin Email---------------------//////////////////////
-
-                    //////////////////////////-------Promo---------------------//////////////////////
-                    echo '<div class="row">
-                        <div class="col-md-2"></div>
-                        <select class="form-control col-md-8 espace" name="promo" >';
-
-                    $monfichier = fopen("promos.txt", "r");
-                    while (!feof($monfichier)) {
-                        $ligne = fgets($monfichier);
-                        $etudiants = explode("|", $ligne);
-                        if (isset($_POST["premierValidation"]) && $existeDeja == true && $nombre == 1 || isset($_POST["premierValidation"]) && $existeDeja == true && $nombre > 1 && $confirmer == true || isset($_POST["Ajouter"])) {
-                            if (isset($_POST["premierValidation"]) && $anciePromo == $etudiants[1]) {
-                                echo '<option value="' . $etudiants[1] . '" selected>' . $etudiants[1] . '</option>';
-                            } 
-                            else {
-                                echo '<option value="' . $etudiants[1] . '">' . $etudiants[1] . '</option>';
-                            }
-                        } 
-                        elseif (isset($_POST["AjouterFin"]) && $valAjout == false || isset($_POST["valider"]) && $valAjout == false) { //si il manque des informations avant l'ajout remettre la promo
-                            if ($_POST["promo"] == $etudiants[1]) { //selectionner la bonne promo
-                                echo '<option value="' . $etudiants[1] . '" selected>' . $etudiants[1] . '</option>';
-                            } 
-                            else {
-                                echo '<option value="' . $etudiants[1] . '">' . $etudiants[1] . '</option>';
-                            }
-                        }
-                    }
-                    fclose($monfichier);
-
-                    echo '</select>
-                    </div>';
-                    ///////////////////////////-------Fin Promo---------------------//////////////////////
                 }
                 ?>
                 <div class="row">
@@ -287,24 +236,26 @@ $_SESSION["actif"] = "ModifierEtudiant";
                 </div>
             </div>
             <?php
-            if (isset($_POST["Annuler"])) {
-                //header("location: ModifierEtudiant.php");
-            }
             $existeDeja = 0;
             $nouv = "";
 
 
             ///////////////////////////////////------Debut Ajouter-----////////////////////////////////
             if (isset($_POST["AjouterFin"]) && $valAjout == true) {
-                $monfichier = fopen('etudiants.txt', 'r');
+                $monfichier = fopen('visiteur.txt', 'r');
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
                     $tab = explode("|", $ligne);
                 }
                 fclose($monfichier);
-                $code = $_POST["code"];
+                if(isset($tab[0])){
+                    $code = $tab[0]+1;
+                }
+                else{
+                    $code = 1;//premier ajout
+                }
+                
 
-                $promo = $_POST["promo"];
                 $nom = $_POST["nom"];
                 $datN = new DateTime($_POST["dateNaiss"]);
                 $dateNaiss = $datN->format('d-m-Y');
@@ -313,12 +264,12 @@ $_SESSION["actif"] = "ModifierEtudiant";
                 $email = $_POST["email"];
                 $statut = "Accepter";
 
-                $monfichier = fopen('etudiants.txt', 'a+');
+                $monfichier = fopen('visiteur.txt', 'a+');
                 if( $FichierVide==false){
-                    $nouvU = "\n" . $code . "|" . $promo . "|" . $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" . $statut . "|"; //ajout d un nouvel utilisateur
+                    $nouvU = "\n" .  $code. "|". $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" ; //ajout d un nouvel utilisateur
                 }
                 else{
-                    $nouvU = $code . "|" . $promo . "|" . $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" . $statut . "|"; //ajout d un nouvel utilisateur
+                    $nouvU = $code. "|". $nom . "|" . $dateNaiss . "|" . $tel . "|" . $email . "|" ; //ajout d un nouvel utilisateur
                 }
                 fwrite($monfichier, $nouvU); //ajout 
                 fclose($monfichier);
@@ -329,16 +280,16 @@ $_SESSION["actif"] = "ModifierEtudiant";
             if (isset($_POST["valider"])  && $valAjout == true) {
 
                 $reecrire = "";
-                $monfichier = fopen('etudiants.txt', 'r');
+                $monfichier = fopen('visiteur.txt', 'r');
                 while (!feof($monfichier)) {
 
                     $ligne = fgets($monfichier);
                     $tab = explode("|", $ligne);
-                    if ( $tab[0] == $_POST["ancienCode"] ) {
+                    if ( isset($_POST["ancienCode"]) && $tab[0] == $_POST["ancienCode"] || !isset($_POST["ancienCode"]) && $tab[1]==$_POST["nom"]) {
                         //modifier si le code correspond                             
                         $datN = new DateTime($_POST["dateNaiss"]);
                         $NouvdateNaiss = $datN->format('d-m-Y');
-                        $modif = $tab[0] . "|" . $_POST["promo"] . "|" . $_POST["nom"] . "|" . $NouvdateNaiss . "|" . $_POST["tel"] . "|" . $_POST["email"] . "|\n";
+                        $modif = $tab[0] . "|"  . $_POST["nom"] . "|" . $NouvdateNaiss . "|" . $_POST["tel"] . "|" . $_POST["email"] . "|"  . "\n";
                     } 
                     else {
                         $modif = $ligne;
@@ -346,7 +297,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
                     $reecrire = $reecrire . $modif;
                 }
                 fclose($monfichier);
-                $monfichier = fopen('etudiants.txt', 'w+');
+                $monfichier = fopen('visiteur.txt', 'w+');
                 //$reecrire="";
                 fwrite($monfichier, trim($reecrire));
                 fclose($monfichier);
@@ -358,11 +309,11 @@ $_SESSION["actif"] = "ModifierEtudiant";
         <!-- ///////////////////////////////////------Debut Affichage-----//////////////////////// -->
         <?php
         $FichierVide=true;
-        $monfichier = fopen('etudiants.txt', 'r');
+        $monfichier = fopen('visiteur.txt', 'r');
             while (!feof($monfichier)) {
                 $ligne = fgets($monfichier);
-                $etudiant = explode('|', $ligne);
-                if(isset($etudiant[1])){
+                $visiteur = explode('|', $ligne);
+                if(isset($visiteur[1])){
                     $FichierVide=false;
                 }
             }
@@ -371,30 +322,31 @@ $_SESSION["actif"] = "ModifierEtudiant";
         echo'<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
-                    <td class="col-md-2 text-center gras">N° CI</td>
-                    <td class="col-md-2 text-center gras">Promo</td>
+                    <td class="col-md-1 text-center gras"></td>
+                    <td class="col-md-2 text-center gras">N°</td>
                     <td class="col-md-2 text-center gras">Nom</td>
-                    <td class="col-md-2 text-center gras">Date de naissance</td>
+                    <td class="col-md-2 text-center gras">Date</td>
                     <td class="col-md-2 text-center gras">Téléphone</td>
                     <td class="col-md-2 text-center gras">Email</td>
+                    <td class="col-md-1 text-center gras"></td>
                 </tr>
             </thead>';
         }    
-            $monfichier = fopen('etudiants.txt', 'r');
+            $monfichier = fopen('visiteur.txt', 'r');
             while (!feof($monfichier)) {
                 $ligne = fgets($monfichier);
-                $etudiant = explode('|', $ligne);
-                if ($etudiant[0] != "" && !isset($_POST["recherche"]) || isset($_POST["recherche"]) && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) || $etudiant[0] != "" && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
+                $visiteur = explode('|', $ligne);
+                if ($visiteur[0] != "" && !isset($_POST["recherche"]) || isset($_POST["recherche"]) && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) || $visiteur[0] != "" && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
                 //si le code n'est pas vide et que on ne recherche rien                          //si on recherche une chose non vide et que cela face partie de la ligne                                 //si on appuis sur le bouton rechercher alors qu'on n'a rien ecrit afficher tous les éléments                                      
                     echo
                         '<tr class="row">
-                            <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[1] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[2] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[4] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[5] . '</td>
-                            
+                            <td class="col-md-1 text-center"></td>
+                            <td class="col-md-2 text-center">' . $visiteur[0] . '</td>
+                            <td class="col-md-2 text-center">' . $visiteur[1] . '</td>
+                            <td class="col-md-2 text-center">' . $visiteur[2] . '</td>
+                            <td class="col-md-2 text-center">' . $visiteur[3] . '</td>
+                            <td class="col-md-2 text-center">' . $visiteur[4] . '</td>
+                            <td class="col-md-1 text-center"></td>                            
                         </tr>';
                 }
             }
