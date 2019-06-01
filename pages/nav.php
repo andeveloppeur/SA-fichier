@@ -11,19 +11,19 @@ echo '<nav class="navbar navbar-expand-lg navbar-light row fixed-top" style="bac
         <a class="nav-link" href="accueil.php">Accueil<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item ';if ($_SESSION["actif"] == "ModifierEtudiant") {echo 'active';}echo '">
-        <a class="nav-link" href="ModifierEtudiant.php">Gestion des étudiants</a>
+        <a class="nav-link" href="ModifierEtudiant.php">Gestion des apprenants</a>
       </li>
       <li class="nav-item ';if ($_SESSION["actif"] == "ModifierPromo") {echo 'active';}echo '">
-        <a class="nav-link" href="ModifierPromo.php">Gestion des promos</a>
+        <a class="nav-link" href="ModifierPromo.php">Référentiels</a>
       </li>
       <li class="nav-item ';if ($_SESSION["actif"] == "ListerEtudiant") {echo 'active';}echo '">
-        <a class="nav-link" href="ListerEtudiant.php">Lister apprenants</a>
+        <a class="nav-link" href="ListerEtudiant.php">Liste apprenants</a>
       </li>
       <li class="nav-item ';if ($_SESSION["actif"] == "emargement") {echo 'active';}echo '">
         <a class="nav-link" href="emargement.php">Emargement</a>
       </li>
       <li class="nav-item ';if ($_SESSION["actif"] == "visiteur") {echo 'active';}echo '">
-        <a class="nav-link" href="visiteur.php">Visiteur</a>
+        <a class="nav-link" href="visiteur.php">Visiteurs</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="deconnexion.php">Déconnexion</a>

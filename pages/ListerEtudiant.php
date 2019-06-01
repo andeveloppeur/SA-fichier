@@ -70,7 +70,7 @@ elseif (isset($_POST["promo"])) {
             </div>
         </form>
         <?php
-        if (isset($_POST["promo"]) || isset($_GET["promo"])) {
+        //if (isset($_POST["promo"]) || isset($_GET["promo"])) {
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
@@ -85,11 +85,16 @@ elseif (isset($_POST["promo"])) {
             </thead>';
 
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
+            $actualisation=false;
             $monfichier = fopen('etudiants.txt', 'r');
             while (!feof($monfichier)) {
                 $ligne = fgets($monfichier);
                 $etudiant = explode('|', $ligne);
-                if ( $etudiant[1] == $Promo && empty($_POST["nom"]) || $etudiant[1] == $Promo && !empty($_POST["nom"]) && strstr(strtolower($etudiant[2]),strtolower($_POST["nom"]))) {
+                if (!isset($_POST["valider"]) && isset($etudiant[1]) && $etudiant[1] == "Dev Web" && !isset($_GET["promo"])){
+                    $Promo="Dev Web";
+                    $actualisation=true;
+                }
+                if ($actualisation==true||isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && empty($_POST["nom"]) || isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && !empty($_POST["nom"]) && strstr(strtolower($etudiant[2]),strtolower($_POST["nom"]))) {
                     echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
@@ -104,7 +109,7 @@ elseif (isset($_POST["promo"])) {
             }
             fclose($monfichier);
             ####################################------Fin Affichage-----#################################
-        }
+        //}
         ?>
         </table>
     </section>

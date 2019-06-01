@@ -97,7 +97,16 @@ elseif (isset($_POST["promo"])) {
         
         ///////////////////////////-------rechercher par jour---------------------//////////////////////
         ?>
-        <?php    
+        <?php 
+            $monfichier = fopen('emargement.txt', 'r');
+            while (!feof($monfichier)) {
+                $ligne = fgets($monfichier);
+                $etudiant = explode('|', $ligne);
+                if(isset($etudiant[2])) break;
+            }
+            fclose($monfichier);
+
+            if(isset($etudiant[2]) || isset($_POST["validerRechJour"])){   //donc le fichier n'est pas vide ou qu'on appuis sur le submit
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
@@ -109,6 +118,7 @@ elseif (isset($_POST["promo"])) {
                     <td class="col-md-2 text-center gras">Sortie</td>
                 </tr>
             </thead>';
+            }
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
             if(isset($_POST["jourRech"])){
                 $datN = new DateTime($_POST["jourRech"]);
@@ -121,7 +131,7 @@ elseif (isset($_POST["promo"])) {
                     $ligne = fgets($monfichier);
                     $etudiant = explode('|', $ligne);
                     if (!isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==date('d-m-Y')||
-                    isset($_POST["validerRechJour"]) && $etudiant[3]==$date && $etudiant[1]==$_POST["promo"] && $_POST["presence"]=="present") {
+                    isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==$date && $etudiant[1]==$_POST["promo"] && $_POST["presence"]=="present") {
                         echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>

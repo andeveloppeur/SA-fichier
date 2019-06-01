@@ -149,14 +149,29 @@ elseif (isset($_POST["promo"])) {
 
                     ///////////////////////////-------EnregistrerEnregistrer---------------------//////////////////////
                     echo '<div class="row">
-                        <div class="col-md-3"></div>
-                        <input type="submit" class="form-control col-md-6 espace" value="Enregistrer" name="valider">
+                        <div class="col-md-2"></div>
+                        <input type="submit" class="form-control col-md-4 espace" value="Annuller" name="Annuller">
+                        <input type="submit" class="form-control col-md-4 espace" value="Enregistrer" name="valider">
                     </div>';
                     ///////////////////////////-------Enregistrer---------------------//////////////////////
                     
                     echo'</div>
                 </form>';
             }
+            ///////////////////////////-------Continuer emargement---------------------//////////////////////
+            elseif(!isset($_GET["promo"]) && isset($_POST["valider"])){
+                    echo'<form method="POST" action="ListerEtudiant.php?promo='.$_POST["promo"].'" class="MonForm row insc">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 bor">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <input type="submit" class="form-control col-md-6 espace" value="Continuer les émargements" name="contEmarg">
+                        </div>
+                    </div>
+                </form>';
+            }
+            ///////////////////////////-------Continuer emargement---------------------//////////////////////
+
             ///////////////////////////-------rechercher par jour---------------------//////////////////////
             else{
             echo'<form method="POST" action="emargement.php" class="MonForm row insc">
@@ -230,7 +245,7 @@ elseif (isset($_POST["promo"])) {
             }
             ####################################------Sortie----#############################
         }
-            if($FichierVide==false && !isset($_GET["aModifier"])){
+            if($FichierVide==false && !isset($_GET["aModifier"]) || isset($_GET["code"]) || isset($_POST["valider"])){
             echo '<table class="col-12 tabliste table">
             <thead class="thead-dark">
                 <tr class="row">
@@ -281,7 +296,7 @@ elseif (isset($_POST["promo"])) {
                         <td class="col-md-2 text-center">' . $date . '</td>
                         <td class="col-md-1 text-center">' . $_POST["arrivee"]  . '</td>
                         <td class="col-md-1 text-center">' . $_POST["depart"]  . '</td>
-                        <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$_POST["code"] .'&promo='.$_POST["promo"].'"><button class="form-control" >Modifier</button></a></td>
+                        <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$_POST["code"] .'&promo='.$_POST["promo"].'&&date='.$date.'"><button class="form-control" >Modifier</button></a></td>
                     </tr>';
             }
             ####################################------Fin Affichage-----#################################
