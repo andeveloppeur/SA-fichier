@@ -34,7 +34,7 @@ $_SESSION["actif"] = "accueil";
                 <div class="col-md-6 bor">';
                 echo '<div class="row">
                     <div class="col-md-2"></div>
-                    <input type="date" class="form-control col-md-8 espace" name="jourRech" value="'.date('Y-m-d').'">
+                    <input type="date" class="form-control col-md-8 espace" name="jourRech" value="';if(!isset($_POST["jourRech"])){echo date('Y-m-d');}else{echo $_POST["jourRech"];}echo'">
                 </div>';
                 echo '<div class="row">
                     <div class="col-md-3"></div>

@@ -253,9 +253,9 @@ elseif (isset($_POST["promo"])) {
                     <td class="col-md-2 text-center gras">Promo</td>
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date</td>
-                    <td class="col-md-1 text-center gras">Arrivée</td>
+                    <td class="col-md-2 text-center gras">Arrivée</td>
                     <td class="col-md-1 text-center gras">Sortie</td>
-                    <td class="col-md-2 text-center gras">Modification</td>
+                    <td class="col-md-1 text-center gras">Modification</td>
                 </tr>
             </thead>';
             }
@@ -277,9 +277,9 @@ elseif (isset($_POST["promo"])) {
                                 <td class="col-md-2 text-center">' . $etudiant[1] . '</td>
                                 <td class="col-md-2 text-center">' . $etudiant[2] . '</td>
                                 <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
-                                <td class="col-md-1 text-center">' . $etudiant[4] . '</td>
+                                <td class="col-md-2 text-center">' . $etudiant[4] . '</td>
                                 <td class="col-md-1 text-center">' . $etudiant[5] . '</td>
-                                <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$etudiant[0].'&promo='.$etudiant[1].'&&date='.$etudiant[3].'"><button class="form-control" >Modifier</button></a></td>
+                                <td class="col-md-1 text-center"><a href="emargement.php?aModifier='.$etudiant[0].'&promo='.$etudiant[1].'&&date='.$etudiant[3].'"><button class="btn btn-outline-primary" >Modifier</button></a></td>
                             </tr>';
                     }
                 }
@@ -294,9 +294,9 @@ elseif (isset($_POST["promo"])) {
                         <td class="col-md-2 text-center">' . $_POST["promo"] . '</td>
                         <td class="col-md-2 text-center">' . $_POST["nom"]  . '</td>
                         <td class="col-md-2 text-center">' . $date . '</td>
-                        <td class="col-md-1 text-center">' . $_POST["arrivee"]  . '</td>
+                        <td class="col-md-2 text-center">' . $_POST["arrivee"]  . '</td>
                         <td class="col-md-1 text-center">' . $_POST["depart"]  . '</td>
-                        <td class="col-md-2 text-center"><a href="emargement.php?aModifier='.$_POST["code"] .'&promo='.$_POST["promo"].'&&date='.$date.'"><button class="form-control" >Modifier</button></a></td>
+                        <td class="col-md-1 text-center"><a href="emargement.php?aModifier='.$_POST["code"] .'&promo='.$_POST["promo"].'&&date='.$date.'"><button class="btn btn-outline-primary" >Modifier</button></a></td>
                     </tr>';
             }
             ####################################------Fin Affichage-----#################################

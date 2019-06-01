@@ -103,7 +103,7 @@ elseif (isset($_POST["promo"])) {
                             <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
                             <td class="col-md-1 text-center">' . $etudiant[4] . '</td>
                             <td class="col-md-3 text-center">' . $etudiant[5] . '</td>
-                            <td class="col-md-1 text-center"><a href="emargement.php?code=' . $etudiant[0] . '&promo=' . $Promo .  '"   id="' . $etudiant[0] . '" ><button class="form-control" >Emarger</button></a></td>
+                            <td class="col-md-1 text-center"><a href="emargement.php?code=' . $etudiant[0] . '&promo=' . $Promo .  '"   id="' . $etudiant[0] . '" ><button class="btn btn-outline-primary" >Emarger</button></a></td>
                         </tr>';
                 }
             }
