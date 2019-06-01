@@ -39,7 +39,7 @@ elseif (isset($_POST["promo"])) {
                 echo '<div class="row">
                         <div class="col-md-2"></div>
                         <select class="form-control col-md-8 espace" name="promo" >';
-                if(!isset($_POST["recherche"])){
+                if(!isset($_POST["recherche"]) && !isset($_POST["aRechercher"])||isset($_POST["recherche"]) && empty($_POST["aRechercher"])|| isset($_POST["finRecherche"])){
                     $monfichier = fopen("promos.txt", "r");
                     while (!feof($monfichier)) {
                         $ligne = fgets($monfichier);
@@ -99,10 +99,10 @@ elseif (isset($_POST["promo"])) {
                     $Promo="Dev Web";
                     $actualisation=true;
                 }
-                if ($actualisation==true && !isset($_POST["recherche"])||isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && empty($_POST["nom"]) && !isset($_POST["recherche"])|| 
+                if ($actualisation==true && !isset($_POST["recherche"])&& $etudiant[1] == "Dev Web"||isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && empty($_POST["nom"]) && !isset($_POST["recherche"])|| 
                 isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && !empty($_POST["nom"]) && strstr(strtolower($etudiant[2]),strtolower($_POST["nom"]))&& !isset($_POST["recherche"])||
                 isset($_POST["recherche"]) && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) || 
-                $etudiant[0] != "" && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
+                $etudiant[0] != "" && isset($_POST["recherche"]) && empty($_POST["aRechercher"])&& $etudiant[1] == "Dev Web") {
                     echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
