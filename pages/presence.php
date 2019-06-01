@@ -176,7 +176,8 @@ elseif (isset($_POST["promo"])) {
                             <td class="col-md-2 text-center">' . $etudiant[2] . '</td>
                             <td class="col-md-2 text-center">' . $date . '</td>
                             <td class="col-md-2 text-center">--:--</td>
-                            <td class="col-md-2 text-center">--:--</td>
+                            <td class="col-md-1 text-center">--:--</td>
+                            <td class="col-md-1 text-center"><a href="stat.php?code=' . $etudiant[0] . '" ><button class="form-control" >Stat</button></a></td>
                         </tr>';
                     }
                 }
@@ -185,7 +186,68 @@ elseif (isset($_POST["promo"])) {
             ///////////////////////////////////////////----Fin Absents----//////////////////////////////////////////////
 
             ####################################------Fin Affichage-----#################################
-       
+
+            ////////////////////////////----------------Debut Export-----------///////////////////////////
+            if(isset($_POST["export"])){
+                
+                ////////////////-----etudiants.txt----//////////
+                $tout="";
+                $monfichier = fopen('etudiants.txt', 'r');            
+                while (!feof($monfichier)) {
+                    $ligne = fgets($monfichier);
+                    $tout=$tout.$ligne;
+                }
+                fclose($monfichier);
+                $tout=str_ireplace("|",";",$tout);
+
+                $monfichier = fopen('../Exportation/etudiants '.date('d-m-Y').'.csv', 'w+');
+                fwrite($monfichier,$tout);
+                fclose($monfichier);
+                ////////////////---Fin etudiants.txt----//////////
+                
+                 ////////////////-----emargement.txt----//////////
+                $tout="";
+                $monfichier = fopen('emargement.txt', 'r');            
+                while (!feof($monfichier)) {
+                    $ligne = fgets($monfichier);
+                    $tout=$tout.$ligne;
+                }
+                fclose($monfichier);
+                $tout=str_ireplace("|",";",$tout);
+                $monfichier = fopen('../Exportation/emargement '.date('d-m-Y').'.csv', 'w+');
+                fwrite($monfichier,$tout);
+                fclose($monfichier);
+                ////////////////---Fin emargement.txt----//////////
+                
+                 ////////////////-----promos.txt----//////////
+                $tout="";
+                $monfichier = fopen('promos.txt', 'r');            
+                while (!feof($monfichier)) {
+                    $ligne = fgets($monfichier);
+                    $tout=$tout.$ligne;
+                }
+                fclose($monfichier);
+                $tout=str_ireplace("|",";",$tout);
+                $monfichier = fopen('../Exportation/promos '.date('d-m-Y').'.csv', 'w+');
+                fwrite($monfichier,$tout);
+                fclose($monfichier);
+                ////////////////---Fin promos.txt----//////////
+                
+                 ////////////////-----visiteur.txt----//////////
+                $tout="";
+                $monfichier = fopen('visiteur.txt', 'r');            
+                while (!feof($monfichier)) {
+                    $ligne = fgets($monfichier);
+                    $tout=$tout.$ligne;
+                }
+                fclose($monfichier);
+                $tout=str_ireplace("|",";",$tout);
+                $monfichier = fopen('../Exportation/visiteur '.date('d-m-Y').'.csv', 'w+');
+                fwrite($monfichier,$tout);
+                fclose($monfichier);
+                ////////////////---Fin visiteur.txt----//////////
+            }
+            ####################################---------Fin Export-----------#############################
         ?>
         </table>
     </section>
