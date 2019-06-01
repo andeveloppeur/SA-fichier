@@ -213,6 +213,7 @@ elseif (isset($_POST["promo"])) {
                     $tout=$tout.$ligne;
                 }
                 fclose($monfichier);
+                $tout=str_ireplace("||",";--:--;",$tout);
                 $tout=str_ireplace("|",";",$tout);
                 $monfichier = fopen('../Exportation/emargement '.date('d-m-Y').'.csv', 'w+');
                 fwrite($monfichier,$tout);
@@ -246,6 +247,9 @@ elseif (isset($_POST["promo"])) {
                 fwrite($monfichier,$tout);
                 fclose($monfichier);
                 ////////////////---Fin visiteur.txt----//////////
+                echo'<script>
+                        alert("Exportation réussie ! \n\nNB: Les fichiers sont dans le répértoire Exportation");
+                    </script>';
             }
             ####################################---------Fin Export-----------#############################
         ?>
@@ -254,6 +258,7 @@ elseif (isset($_POST["promo"])) {
     <?php
     include("piedDePage.php");
     ?>
+    
 </body>
 
 </html>

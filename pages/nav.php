@@ -29,7 +29,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-light row fixed-top" style="bac
       }
       elseif($_SESSION["actif"] =="presence" ||$_SESSION["actif"] =="stat"){
         echo'<li class="nav-item ';if ($_SESSION["actif"] == "presence") {echo 'active';}echo '">
-          <a class="nav-link" href="presence.php">Horaires</a>
+          <a class="nav-link" href="presence.php">Gestion des présences</a>
         </li>';
       }
       if($_SESSION["actif"] =="stat"){
