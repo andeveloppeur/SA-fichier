@@ -82,7 +82,7 @@ series2.fill = chart.colors.next();
 series2.stroke = series2.fill;
 series2.cursorHoverEnabled = false;
 
-// var series3 = chart.series.push(series1.clone());
+// var series3 = chart.series.push(series1.clone()); //pour les online
 // series3.name = "Series 3";
 // series3.dataFields.valueY = "value3";
 // series3.fill = chart.colors.next();

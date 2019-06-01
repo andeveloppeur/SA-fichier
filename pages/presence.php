@@ -115,7 +115,8 @@ elseif (isset($_POST["promo"])) {
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date</td>
                     <td class="col-md-2 text-center gras">Arrivée</td>
-                    <td class="col-md-2 text-center gras">Sortie</td>
+                    <td class="col-md-1 text-center gras">Sortie</td>
+                    <td class="col-md-1 text-center gras">Stats</td>
                 </tr>
             </thead>';
             }
@@ -139,7 +140,8 @@ elseif (isset($_POST["promo"])) {
                             <td class="col-md-2 text-center">' . $etudiant[2] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[4] . '</td>
-                            <td class="col-md-2 text-center">' . $etudiant[5] . '</td>
+                            <td class="col-md-1 text-center">' . $etudiant[5] . '</td>
+                            <td class="col-md-1 text-center"><a href="stat.php?code=' . $etudiant[0] . '" ><button class="form-control" >Stat</button></a></td>
                         </tr>';
                     }
                 }

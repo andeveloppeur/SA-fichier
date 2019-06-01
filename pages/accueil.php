@@ -16,7 +16,6 @@ $_SESSION["actif"] = "accueil";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/MonStyle.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/circle.css">
     <title>Accueil</title>
 </head>
 
