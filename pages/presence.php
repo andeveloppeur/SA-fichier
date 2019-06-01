@@ -120,7 +120,7 @@ elseif (isset($_POST["promo"])) {
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
                     $etudiant = explode('|', $ligne);
-                    if (!isset($_POST["validerRechJour"]) && $etudiant[3]==date('d-m-Y')||
+                    if (!isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==date('d-m-Y')||
                     isset($_POST["validerRechJour"]) && $etudiant[3]==$date && $etudiant[1]==$_POST["promo"] && $_POST["presence"]=="present") {
                         echo
                         '<tr class="row">
