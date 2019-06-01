@@ -251,6 +251,8 @@ $_SESSION["actif"] = "ModifierEtudiant";
                                 echo '<option value="' . $etudiants[1] . '">' . $etudiants[1] . '</option>';
                             }
                         }
+                
+
                     }
                     fclose($monfichier);
 
@@ -372,7 +374,7 @@ $_SESSION["actif"] = "ModifierEtudiant";
             <thead class="thead-dark">
                 <tr class="row">
                     <td class="col-md-2 text-center gras">N° CI</td>
-                    <td class="col-md-2 text-center gras">Promo</td>
+                    <td class="col-md-2 text-center gras">Référentiel</td>
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date de naissance</td>
                     <td class="col-md-1 text-center gras">Téléphone</td>

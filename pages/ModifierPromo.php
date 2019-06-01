@@ -136,8 +136,9 @@ $_SESSION["actif"] = "ModifierPromo";
                     echo '<div class="row">
                         <div class="col-md-2"></div>
                         <select class="form-control col-md-8 espace" name="annee" >';
-                    $ann = 2019;
-                    for ($i = $ann; $i >= 2015; $i--) {
+
+                    $ann = date('Y');
+                    for ($i = $ann; $i <=$ann+5 ; $i++) {
                         if (!isset($_POST["AjouterFin"]) && !isset($_POST["valider"])) {
                             if ($existeDeja == true && $ancAnnee == $i) {
                                 echo '<option value="' . $i . '" selected>' . $i . '</option>';

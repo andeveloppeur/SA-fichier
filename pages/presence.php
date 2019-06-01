@@ -111,7 +111,7 @@ elseif (isset($_POST["promo"])) {
             <thead class="thead-dark">
                 <tr class="row">
                     <td class="col-md-2 text-center gras">N° CI</td>
-                    <td class="col-md-2 text-center gras">Promo</td>
+                    <td class="col-md-2 text-center gras">Référentiel</td>
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date</td>
                     <td class="col-md-2 text-center gras">Arrivée</td>

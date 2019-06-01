@@ -39,18 +39,23 @@ elseif (isset($_POST["promo"])) {
                 echo '<div class="row">
                         <div class="col-md-2"></div>
                         <select class="form-control col-md-8 espace" name="promo" >';
-                $monfichier = fopen("promos.txt", "r");
-                while (!feof($monfichier)) {
-                    $ligne = fgets($monfichier);
-                    $etudiants = explode("|", $ligne);
-                    if ($Promo == $etudiants[1]) {
-                        echo '<option value="' . $etudiants[1] . '" selected>' . $etudiants[1] . '</option>';
-                    } 
-                    else {
-                        echo '<option value="' . $etudiants[1] . '">' . $etudiants[1] . '</option>';
+                if(!isset($_POST["recherche"])){
+                    $monfichier = fopen("promos.txt", "r");
+                    while (!feof($monfichier)) {
+                        $ligne = fgets($monfichier);
+                        $etudiants = explode("|", $ligne);
+                        if ($Promo == $etudiants[1]) {
+                            echo '<option value="' . $etudiants[1] . '" selected>' . $etudiants[1] . '</option>';
+                        } 
+                        else {
+                            echo '<option value="' . $etudiants[1] . '">' . $etudiants[1] . '</option>';
+                        }
                     }
+                    fclose($monfichier);
                 }
-                fclose($monfichier);
+                elseif(isset($_POST["recherche"])){
+                    echo '<option value="">Rechercher dans tous les référentiels</option>';
+                }
                 echo '</select>
                     </div>';
                 ///////////////////////////-------Fin Promo---------------------//////////////////////
@@ -75,7 +80,7 @@ elseif (isset($_POST["promo"])) {
             <thead class="thead-dark">
                 <tr class="row">
                     <td class="col-md-2 text-center gras">N° CI</td>
-                    <td class="col-md-1 text-center gras">Promo</td>
+                    <td class="col-md-1 text-center gras">Référentiel</td>
                     <td class="col-md-2 text-center gras">Nom</td>
                     <td class="col-md-2 text-center gras">Date de naissance</td>
                     <td class="col-md-1 text-center gras">Téléphone</td>
@@ -94,7 +99,10 @@ elseif (isset($_POST["promo"])) {
                     $Promo="Dev Web";
                     $actualisation=true;
                 }
-                if ($actualisation==true||isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && empty($_POST["nom"]) || isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && !empty($_POST["nom"]) && strstr(strtolower($etudiant[2]),strtolower($_POST["nom"]))) {
+                if ($actualisation==true && !isset($_POST["recherche"])||isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && empty($_POST["nom"]) && !isset($_POST["recherche"])|| 
+                isset($Promo) && isset($etudiant[1]) && $etudiant[1] == $Promo && !empty($_POST["nom"]) && strstr(strtolower($etudiant[2]),strtolower($_POST["nom"]))&& !isset($_POST["recherche"])||
+                isset($_POST["recherche"]) && !empty($_POST["aRechercher"]) && strstr(strtolower($ligne), strtolower($_POST["aRechercher"])) || 
+                $etudiant[0] != "" && isset($_POST["recherche"]) && empty($_POST["aRechercher"])) {
                     echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>

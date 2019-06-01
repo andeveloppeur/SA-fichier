@@ -28,7 +28,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-light row fixed-top" style="bac
         </li>';
       }
       elseif($_SESSION["actif"] =="presence" ||$_SESSION["actif"] =="stat"){
-        echo'<li class="nav-item ';if ($_SESSION["actif"] == "presence") {echo 'active';}echo '">
+        echo'<li class="nav-item ';if ($_SESSION["actif"] == "presence" || $_SESSION["actif"] == "accueil") {echo 'active';}echo '">
           <a class="nav-link" href="presence.php">Gestion des présences</a>
         </li>';
       }
@@ -44,8 +44,8 @@ echo '<nav class="navbar navbar-expand-lg navbar-light row fixed-top" style="bac
     if($_SESSION["actif"] !="presence" && $_SESSION["actif"] !="stat"){
       echo'<form class="form-inline my-2 my-lg-0" method="POST" action="">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="aRechercher"';
-        if(isset($_POST[ "recherche"]) && !empty($_POST[ "aRechercher"])){echo'value="'.$_POST["aRechercher"].'"'; } if ($_SESSION["actif"] == "ListerEtudiant" || $_SESSION["actif"] == "presence") {echo ' readonly="readonly" ';} echo'>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="recherche"';if ($_SESSION["actif"] == "ListerEtudiant" || $_SESSION["actif"] == "presence") {echo ' disabled ';} echo' >Search</button>';
+        if(isset($_POST[ "recherche"]) && !empty($_POST[ "aRechercher"])){echo'value="'.$_POST["aRechercher"].'"'; } if ($_SESSION["actif"] == "presence" || $_SESSION["actif"] == "accueil") {echo ' readonly="readonly" ';} echo'>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="recherche"';if ($_SESSION["actif"] == "presence" || $_SESSION["actif"] == "accueil") {echo ' disabled ';} echo' >Search</button>';
         if(isset($_POST[ "recherche"]) && !empty($_POST[ "aRechercher"])){echo'<button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="finRecherche">Fin</button>';}
       echo'</form>';
     }
