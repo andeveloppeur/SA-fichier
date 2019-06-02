@@ -24,6 +24,9 @@ $_SESSION["actif"] = "accueil";
     .nonSoulign {
         text-decoration: none !important;
     }
+    .margBot{
+        margin-bottom:15%;
+    }
     </style>
 </head>
 
@@ -100,7 +103,7 @@ $_SESSION["actif"] = "accueil";
         else{
             echo'<div id="jourR" class="'.$date.'"></div>';
         }
-        echo "<h2 class='bienv'></h2>
+        echo "<h2 class='margBot'></h2>
         </section>
             <footer class='piedPageaccueil'>
                 <p class='cpr'>Copyright 2019 Sonatel Academy</p>
