@@ -17,6 +17,11 @@ $_SESSION["actif"] = "accueil";
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/MonStyle.css">
     <title>Accueil</title>
+    <style>
+    g text tspan {
+        font-weight: bolder;
+    }
+    </style>
 </head>
 
 <body>
@@ -44,7 +49,7 @@ $_SESSION["actif"] = "accueil";
             </form>';
         ///////////////////////////-------rechercher par jour---------------------//////////////////////
         ?>
-        <a href="presence.php"><div id="chartdiv"></div></a>
+        <div id="chartdiv"></div>
         <?php
         $i=0;
         if(isset($_POST["valider"])){
@@ -97,6 +102,7 @@ $_SESSION["actif"] = "accueil";
     <script src="../js/charts.js"></script>
     <script src="../js/animated.js"></script>
     <script src="../js/index.js"></script>
+    <script src="../js/monjs.js"></script>
 </body>
 
 </html>

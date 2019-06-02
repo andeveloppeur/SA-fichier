@@ -24,6 +24,14 @@ elseif (isset($_POST["promo"])) {
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/MonStyle.css">
     <title>Emargement</title>
+    <style>
+    .nonSoulign {
+        text-decoration: none !important;
+    }
+    .nonSoulign:hover{
+        color:#495057;
+    }
+    </style>
 </head>
 
 <body>
@@ -164,8 +172,13 @@ elseif (isset($_POST["promo"])) {
                     <div class="col-md-3"></div>
                     <div class="col-md-6 bor">
                         <div class="row">
-                            <div class="col-md-3"></div>
-                            <input type="submit" class="form-control col-md-6 espace" value="Continuer les émargements" name="contEmarg">
+                            <div class="col-md-2"></div>
+                            <label for="" class="form-control col-md-8 text-center">Voulez-vous continuer les émargements ?</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <input type="submit" class="form-control col-md-4 espace" value="Oui" name="contEmarg">
+                            <a href="emargement.php" class="nonSoulign col-md-4 espace form-control text-center">Non</a>
                         </div>
                     </div>
                 </form>';

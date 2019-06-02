@@ -44,7 +44,7 @@
 1212 1993 02506|Dev Web|Xavier Badouine NZALE|02-09-1993|775904744|xnzale@gmail.com|
 2392 1995 01331|Dev Web|Ndeye Yacine SALL|20-12-1995|784019091|mamasall2015@gmail.com|
 2777 1995 00068|Dev Web|Awa SALL|26-10-1994|777503987|sallawa622@gmail.com|
-1936 1997 00161|Dev Web|gui SECK|08-02-1990|773280348|morseck00@gmail.com|
+1936 1997 00161|Dev Web|Mor SECK|08-02-1990|773280348|morseck00@gmail.com|
 2762 1996 00511|Dev Web|AWA NDIAYE SENE|09-09-1996|771301409|awandiayesene7@gmail.com|
 1768 1989 01143|Dev Web|coly Senghor |20-05-1989|771933121|sakouthiang@gmail.com|
 1870 1992 02044|Dev Web|Mouhamadou Moustapha diamyl SOW|31-05-2019|775741889|diamil2bj@gmail.com|
