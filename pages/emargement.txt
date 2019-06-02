@@ -53,3 +53,5 @@ EB 252 468|Ref Dig|AMAH Dédé Marie Francine Glorie AYIVI|01-06-2019|11:57||
 1765 1992 00705|Data Art|alioune  NDIAYE|01-06-2019|20:09||
 2870 1993 01884|Data Art|Fatou Souleymane MBENGUE|01-06-2019|20:09||
 0000 0000 00000|Dev Web|Tamara BA |02-06-2019|11:22||
+EB 252 468|Ref Dig|AMAH Dédé Marie Francine Glorie AYIVI|02-06-2019|14:36||
+1261 2003 00476|Data Art|Mamadou BA|02-06-2019|14:55||

@@ -9,9 +9,11 @@ function sijeDoubleClikDev() {
     ///////////////////////----dev---///////////////////////////
     var diagramdevAbs = document.getElementById("id-455");
     diagramdevAbs.addEventListener("click", devAbsclicker);
+    var jour = document.getElementById("jourR");
+    var jourR = jour.getAttribute("class");
 
     function devAbsclicker() {
-        document.location.href = "presence.php?promo=Dev Web&statut=Absent";
+        document.location.href = "presence.php?promo=Dev Web&statut=absents&laDate=" + jourR;
 
     }
 
@@ -19,7 +21,7 @@ function sijeDoubleClikDev() {
     diagramdevPres.addEventListener("click", devPresclicker);
 
     function devPresclicker() {
-        document.location.href = "presence.php?promo=Dev Web&statut=Present";
+        document.location.href = "presence.php?promo=Dev Web&statut=present&laDate=" + jourR;
 
     }
     ///////////////////////----Fin dev---///////////////////////////
@@ -29,9 +31,11 @@ function sijeDoubleClikRef() {
     ///////////////////////----Ref Dig---///////////////////////////
     var diagramrefAbs = document.getElementById("id-469");
     diagramrefAbs.addEventListener("click", refAbsclicker);
+    var jour = document.getElementById("jourR");
+    var jourR = jour.getAttribute("class");
 
     function refAbsclicker() {
-        document.location.href = "presence.php?promo=Ref Dig&statut=Absent";
+        document.location.href = "presence.php?promo=Ref Dig&statut=absents&laDate=" + jourR;
 
     }
 
@@ -39,7 +43,7 @@ function sijeDoubleClikRef() {
     diagramrefPres.addEventListener("click", refPresclicker);
 
     function refPresclicker() {
-        document.location.href = "presence.php?promo=Ref Dig&statut=Present";
+        document.location.href = "presence.php?promo=Ref Dig&statut=present&laDate=" + jourR;
 
     }
     ///////////////////////----Fin Ref Dig---///////////////////////////
@@ -49,9 +53,11 @@ function sijeDoubleClikData() {
     ///////////////////////----data art---///////////////////////////
     var diagramdataAbs = document.getElementById("id-483");
     diagramdataAbs.addEventListener("click", dataAbsclicker);
+    var jour = document.getElementById("jourR");
+    var jourR = jour.getAttribute("class");
 
     function dataAbsclicker() {
-        document.location.href = "presence.php?promo=Data Art&statut=Absent";
+        document.location.href = "presence.php?promo=Data Art&statut=absents&laDate=" + jourR;
 
     }
 
@@ -59,7 +65,7 @@ function sijeDoubleClikData() {
     diagramdataPres.addEventListener("click", dataPresclicker);
 
     function dataPresclicker() {
-        document.location.href = "presence.php?promo=Data Art&statut=Present";
+        document.location.href = "presence.php?promo=Data Art&statut=present&laDate=" + jourR;
 
     }
     ///////////////////////----Fin data art---///////////////////////////

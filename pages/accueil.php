@@ -21,6 +21,9 @@ $_SESSION["actif"] = "accueil";
     g text tspan {
         font-weight: bolder;
     }
+    .nonSoulign {
+        text-decoration: none !important;
+    }
     </style>
 </head>
 
@@ -30,7 +33,7 @@ $_SESSION["actif"] = "accueil";
     ?>
     <header></header>
     <section class="container-fluid">
-        <h1 class="textAccueil">Pourcentage d'étudiants présents/absents</h1>
+        <a href="presence.php" class="nonSoulign"><h1 class="textAccueil">Pourcentage d'étudiants présents/absents</h1></a>
         
         <?php
         ///////////////////////////-------rechercher par jour---------------------//////////////////////
@@ -91,7 +94,12 @@ $_SESSION["actif"] = "accueil";
                  <div id="absent'.$i.'" class="'.$absent.'"></div>';
         }
         fclose($monfichier);
-     
+        if(!isset($_POST["valider"])){
+            echo'<div id="jourR" class="'.date('d-m-Y').'"></div>';
+        }
+        else{
+            echo'<div id="jourR" class="'.$date.'"></div>';
+        }
         echo "<h2 class='bienv'></h2>
         </section>
             <footer class='piedPageaccueil'>

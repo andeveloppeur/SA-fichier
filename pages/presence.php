@@ -51,12 +51,24 @@ elseif (isset($_POST["promo"])) {
         fclose($monfichier);
             ///////////////////////////-------rechercher par jour---------------------//////////////////////
             
-        echo'<form method="POST" action="" class="MonForm row insc">
+        echo'<form method="POST" action="presence.php" class="MonForm row insc">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 bor">';
                 echo '<div class="row">
                     <div class="col-md-2"></div>
-                    <input type="date" class="form-control col-md-8 espace" name="jourRech" '; if(!isset($_POST["jourRech"])){echo' value="'.date('Y-m-d').'" ';}else{echo' value="'.$_POST["jourRech"].'" ';} echo'>
+                    <input type="date" class="form-control col-md-8 espace" name="jourRech" '; 
+                    if(!isset($_POST["jourRech"]) && !isset($_GET["laDate"])){
+                        echo' value="'.date('Y-m-d').'" ';
+                    }
+                    elseif(isset($_POST["jourRech"]) && !isset($_GET["laDate"])){
+                        echo' value="'.$_POST["jourRech"].'" ';
+                    }
+                    elseif(isset($_GET["laDate"])){
+                        $datN = new DateTime($_GET["laDate"]);
+                        $ladate = $datN->format('Y-m-d');
+                        echo' value="'.$ladate.'" ';
+                    } 
+                        echo'>
                 </div>';
                 ///////////////////////////-------Promo---------------------//////////////////////
                 echo '<div class="row">
@@ -82,8 +94,8 @@ elseif (isset($_POST["promo"])) {
                 echo '<div class="row">
                     <div class="col-md-2"></div>
                     <select class="form-control col-md-8 espace" name="presence" >
-                        <option value="present" ';if(isset($_POST["presence"]) && $_POST["presence"]=="present"){echo' selected';}echo'>Présents</option>
-                        <option value="absents" ';if(isset($_POST["presence"]) && $_POST["presence"]=="absents"){echo' selected';}echo'>Absents</option>
+                        <option value="present" ';if(isset($_POST["presence"]) && $_POST["presence"]=="present" && !isset($_GET["statut"])|| isset($_GET["statut"]) && $_GET["statut"]=="present"){echo' selected';}echo'>Présents</option>
+                        <option value="absents" ';if(isset($_POST["presence"]) && $_POST["presence"]=="absents" && isset($_GET["statut"]) || isset($_GET["statut"]) && $_GET["statut"]=="absents"){echo' selected';}echo'>Absents</option>
                     </select>                   
                 </div>';
                 ///////////////////////////-------Fin Present/absent---------------------//////////////////////
@@ -131,8 +143,10 @@ elseif (isset($_POST["promo"])) {
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
                     $etudiant = explode('|', $ligne);
-                    if (!isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==date('d-m-Y')||
-                    isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==$date && $etudiant[1]==$_POST["promo"] && $_POST["presence"]=="present") {
+                    if (!isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==date('d-m-Y') && !isset($_GET["promo"])||
+                    isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==$date && $etudiant[1]==$_POST["promo"] && $_POST["presence"]=="present" && !isset($_GET["promo"]) ||
+                    isset($_GET["promo"])&& !isset($_POST["validerRechJour"]) && isset($etudiant[3]) && $etudiant[3]==date('d-m-Y') && $etudiant[1]==$_GET["promo"] && !isset($_GET["laDate"]) ||
+                    isset($_GET["promo"])&& !isset($_POST["validerRechJour"]) && isset($etudiant[3])  && $etudiant[1]==$_GET["promo"] && isset($_GET["laDate"]) && isset($_GET["statut"]) && $_GET["laDate"]==$etudiant[3] && $_GET["statut"]=="present") {
                         echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
@@ -150,7 +164,7 @@ elseif (isset($_POST["promo"])) {
             ///////////////////////////////////////////----Fin Present----//////////////////////////////////////////////
 
             ///////////////////////////////////////////----Absents----//////////////////////////////////////////////
-            if(isset($_POST["validerRechJour"]) && $_POST["presence"]=="absents"){
+            if(isset($_POST["validerRechJour"]) && $_POST["presence"]=="absents" || !isset($_POST["validerRechJour"]) && isset($_GET["statut"]) && $_GET["statut"]=="absents"){
                 $monfichier = fopen('etudiants.txt', 'r');            
                 while (!feof($monfichier)) {
                     $ligne = fgets($monfichier);
@@ -161,14 +175,20 @@ elseif (isset($_POST["promo"])) {
                     while (!feof($fichier)) {
                         $ligne = fgets($fichier);
                         $emarger = explode('|', $ligne);
-                        $datN = new DateTime($_POST["jourRech"]);
-                        $date = $datN->format('d-m-Y');
+                        if(!isset($_GET["laDate"])){
+                            $datN = new DateTime($_POST["jourRech"]);
+                            $date = $datN->format('d-m-Y');
+                        }
+                        else{
+                            $date = $_GET["laDate"];
+                        }
+                        
                         if($etudiant[0]==$emarger[0] && $emarger[3]==$date){
                             $absent=false;
                         }
                     }
                     fclose($fichier);
-                    if($absent==true && $_POST["promo"]==$etudiant[1]){
+                    if($absent==true && isset($_POST["promo"]) && $_POST["promo"]==$etudiant[1] || $absent==true && isset($_GET["promo"]) && $_GET["promo"]==$etudiant[1]){
                          echo
                         '<tr class="row">
                             <td class="col-md-2 text-center">' . $etudiant[0] . '</td>
