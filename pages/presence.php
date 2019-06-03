@@ -24,6 +24,11 @@ elseif (isset($_POST["promo"])) {
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/MonStyle.css">
     <title>Emargement</title>
+    <style>
+        .nonSoulign {
+            text-decoration: none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -155,7 +160,7 @@ elseif (isset($_POST["promo"])) {
                             <td class="col-md-2 text-center">' . $etudiant[3] . '</td>
                             <td class="col-md-2 text-center">' . $etudiant[4] . '</td>
                             <td class="col-md-1 text-center">' . $etudiant[5] . '</td>
-                            <td class="col-md-1 text-center"><a href="stat.php?code=' . $etudiant[0] . '" ><button class="form-control" >Stat</button></a></td>
+                            <td class="col-md-1 text-center"><a class="nonSoulign" href="stat.php?code=' . $etudiant[0] . '" ><button class="form-control" >Stat</button></a></td>
                         </tr>';
                     }
                 }
@@ -197,7 +202,7 @@ elseif (isset($_POST["promo"])) {
                             <td class="col-md-2 text-center">' . $date . '</td>
                             <td class="col-md-2 text-center">--:--</td>
                             <td class="col-md-1 text-center">--:--</td>
-                            <td class="col-md-1 text-center"><a href="stat.php?code=' . $etudiant[0] . '" ><button class="form-control" >Stat</button></a></td>
+                            <td class="col-md-1 text-center"><a class="nonSoulign" href="stat.php?code=' . $etudiant[0] . '" ><button class="form-control" >Stat</button></a></td>
                         </tr>';
                     }
                 }
