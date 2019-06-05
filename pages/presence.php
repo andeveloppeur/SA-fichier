@@ -46,11 +46,7 @@ elseif (isset($_POST["promo"])) {
             $ligne = fgets($monfichier);
             $etudiant = explode('|', $ligne);
             if(isset($etudiant[1])){
-                $FichierVide=false;
-            }
-            if (isset($_GET["code"]) && $etudiant[0]==$_GET["code"] && $etudiant[3]==date('d-m-Y')||isset($_POST["code"]) && $etudiant[0]==$_POST["code"] && $etudiant[3]==date('d-m-Y')){
-                $sortie=true;
-                $heurArrive=$etudiant[4];
+                $FichierVide=false; break;
             }
         }
         fclose($monfichier);
@@ -135,7 +131,8 @@ elseif (isset($_POST["promo"])) {
                     <td class="col-md-1 text-center gras">Sortie</td>
                     <td class="col-md-1 text-center gras">Stats</td>
                 </tr>
-            </thead>';
+            </thead>
+            <tbody id="developers">';
             }
             /////////////////////////////////////////------Debut Affichage-----///////////////////////// 
             if(isset($_POST["jourRech"])){
@@ -278,12 +275,14 @@ elseif (isset($_POST["promo"])) {
             }
             ####################################---------Fin Export-----------#############################
         ?>
+        </tbody>
         </table>
     </section>
     <?php
     include("piedDePage.php");
     ?>
-    
+    <script src="../js/bootstrap-table-pagination.js"></script>
+    <script src="../js/pagination.js"></script>
 </body>
 
 </html>
